@@ -19,3 +19,19 @@ a:hover {
 .content ul {
   @apply my-6;
 }
+
+#toggle:checked ~ label span.toggle-dot {
+  @apply translate-x-5;
+}
+
+#toggle:focus ~ label span.toggle-dot {
+  @apply ring ring-slate-500;
+}
+
+.icon-dark > path {
+  fill: #16161d;
+}
+
+.icon-light > path {
+  fill: #f9f9f9;
+}

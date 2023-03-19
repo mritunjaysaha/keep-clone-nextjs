@@ -1,5 +1,9 @@
 const Auth = () => {
-  return <section>Auth</section>;
+  return (
+    <section>
+      <p>Auth</p>
+    </section>
+  );
 };
 
 export default Auth;

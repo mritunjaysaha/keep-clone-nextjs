@@ -1,5 +1,9 @@
 const Reminders = () => {
-  return <section>Reminders</section>;
+  return (
+    <section>
+      <p>Reminders</p>
+    </section>
+  );
 };
 
 export default Reminders;

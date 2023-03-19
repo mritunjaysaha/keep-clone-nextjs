@@ -1,5 +1,9 @@
 const Search = () => {
-  return <section>Search</section>;
+  return (
+    <section>
+      <p>Search</p>
+    </section>
+  );
 };
 
 export default Search;

@@ -1,5 +1,9 @@
 const Labels = () => {
-  return <section>Labels</section>;
+  return (
+    <section>
+      <p>Labels</p>
+    </section>
+  );
 };
 
 export default Labels;

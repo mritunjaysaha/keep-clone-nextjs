@@ -7,7 +7,7 @@ export function NavSide() {
   const { isNavSideClose } = useNavSide();
 
   return (
-    <section className={`flex flex-col ${isNavSideClose ? 'w-16' : 'w-60'} h-full bg-red-500`}>
+    <section className={`flex flex-col ${isNavSideClose ? 'w-12' : 'w-60'} h-full`}>
       <NavButtons
         icon={BsLightbulb}
         label='notes'

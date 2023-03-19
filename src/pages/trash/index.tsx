@@ -1,5 +1,9 @@
 const Trash = () => {
-  return <section>trash</section>;
+  return (
+    <section>
+      <p>trash</p>
+    </section>
+  );
 };
 
 export default Trash;

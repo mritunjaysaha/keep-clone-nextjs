@@ -5,6 +5,10 @@ module.exports = {
   theme: {
     extend: {
       colors: {},
+      height: {
+        '10v': '9.8vh',
+        '90v': '90vh',
+      },
     },
   },
   plugins: [],

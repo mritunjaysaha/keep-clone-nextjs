@@ -1,5 +1,11 @@
+import { LayoutPage } from '@/layouts/LayoutsPage';
+
 const Index = () => {
-  return <section className='bg-red-500'>Home</section>;
+  return (
+    <LayoutPage>
+      <p>Home</p>
+    </LayoutPage>
+  );
 };
 
 export default Index;

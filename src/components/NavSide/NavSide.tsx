@@ -1,5 +1,6 @@
 import { BsBell, BsLightbulb, BsPencil } from 'react-icons/bs';
 import { HiOutlineTrash } from 'react-icons/hi';
+import { MdLabelOutline } from 'react-icons/md';
 import { RiInboxArchiveLine } from 'react-icons/ri';
 
 import { NavButtons } from '@/components/NavSide/components/NavButtons';
@@ -30,6 +31,43 @@ export function NavSide() {
         }}
       />
 
+      {/* REST OF THE LABELS WILL GO HERE */}
+      <NavButtons
+        icon={MdLabelOutline}
+        label='TBC'
+        isActive={false}
+        isNavSideClose={isNavSideClose}
+        onClick={() => {
+          console.log('notes clicked');
+        }}
+      />
+      <NavButtons
+        icon={MdLabelOutline}
+        label='TBC'
+        isActive={false}
+        isNavSideClose={isNavSideClose}
+        onClick={() => {
+          console.log('notes clicked');
+        }}
+      />
+      <NavButtons
+        icon={MdLabelOutline}
+        label='TBC'
+        isActive={false}
+        isNavSideClose={isNavSideClose}
+        onClick={() => {
+          console.log('notes clicked');
+        }}
+      />
+      <NavButtons
+        icon={MdLabelOutline}
+        label='TBC'
+        isActive={false}
+        isNavSideClose={isNavSideClose}
+        onClick={() => {
+          console.log('notes clicked');
+        }}
+      />
       {/* REST OF THE LABELS WILL GO HERE */}
 
       <NavButtons

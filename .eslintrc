@@ -13,13 +13,7 @@
         "singleQuote": true,
         "endOfLine": "auto"
       }
-    ],
-    "react/react-in-jsx-scope": 0,
-    "@typescript-eslint/no-empty-function": 0,
-    "spaced-comment": "error",
-    "quotes": ["error", "single"],
-    "tailwindcss/no-custom-classname": 0,
-    "@typescript-eslint/restrict-template-expressions": 0
+    ]
   },
   "overrides": [
     // Configuration for TypeScript files

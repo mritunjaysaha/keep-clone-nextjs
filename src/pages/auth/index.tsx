@@ -16,7 +16,7 @@ const Auth = () => {
       .then((res) => {
         const { data } = res;
         console.log({ data });
-        window.localStorage.setItem('jwtToken', data.token);
+        // window.localStorage.setItem('jwtToken', data.token);
         setAuthToken(data.token);
         dispatch(setAuth({ id: data.user.id }));
         dispatch(setUserData(data.user));

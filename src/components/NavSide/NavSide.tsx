@@ -1,34 +1,44 @@
+import axios from 'axios';
 import { useRouter } from 'next/router';
+import { useEffect, useState } from 'react';
 import { BsBell, BsLightbulb, BsPencil } from 'react-icons/bs';
 import { HiOutlineTrash } from 'react-icons/hi';
+import { MdLabelOutline } from 'react-icons/md';
 import { RiInboxArchiveLine } from 'react-icons/ri';
 
 import { NavButtons } from '@/components/NavSide/components/NavButtons';
 import ROUTES from '@/constants/routes.json';
+import { useAppSelector } from '@/hooks/redux';
 import { useNavSide } from '@/hooks/useNavSide';
 
 export function NavSide() {
   const { isNavSideClose } = useNavSide();
   const router = useRouter();
+  const { id } = useAppSelector((state) => state.user);
 
   function handleButtonNavClick(page: string) {
     router.push(page);
   }
 
   function checkIsCurrentPage(page: string): boolean {
-    return router.pathname.includes(page);
+    console.log(router.pathname, page);
+    return decodeURI(router.pathname).includes(page);
   }
 
-  // async function getAllLabel() {
-  //   const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
-  //   console.log(baseUrl);
-  //   const res = await axios.get(`${baseUrl}/api/label/all/6410b903bfa91bc44a4c77c9`);
-  //   console.log({ res });
-  // }
+  const [labels, setLabels] = useState([]);
+  async function getAllLabel() {
+    const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
+    const res = await axios.get(`${baseUrl}/api/label/${id}/all`);
+    console.log({ res });
 
-  // useEffect(() => {
-  //   getAllLabel();
-  // }, []);
+    setLabels(res.data);
+  }
+
+  useEffect(() => {
+    if (id) {
+      getAllLabel();
+    }
+  }, [id]);
 
   return (
     <section className={`flex flex-col ${isNavSideClose ? 'w-12' : 'w-60'} h-full`}>
@@ -53,6 +63,18 @@ export function NavSide() {
       />
 
       {/* REST OF THE LABELS WILL GO HERE */}
+      {labels.map(({ labelName }, index) => (
+        <NavButtons
+          key={index}
+          icon={MdLabelOutline}
+          label={labelName}
+          isActive={checkIsCurrentPage(`${ROUTES.LABELS}/${labelName}`)}
+          isNavSideClose={isNavSideClose}
+          onClick={() => {
+            handleButtonNavClick(`${ROUTES.LABELS}/${labelName}`);
+          }}
+        />
+      ))}
       {/* REST OF THE LABELS WILL GO HERE */}
 
       <NavButtons

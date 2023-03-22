@@ -3,7 +3,7 @@ import { createSlice } from '@reduxjs/toolkit';
 export const globalSlice = createSlice({
   name: 'global',
   initialState: {
-    isNavSideClose: false,
+    isNavSideClose: true,
   },
   reducers: {
     setNavSide: (state, { payload }) => {

@@ -1,0 +1,9 @@
+{
+  "HOME": "/",
+  "ARCHIVE": "/archive",
+  "AUTH": "/auth",
+  "LABELS": "/labels",
+  "REMINDERS": "/reminders",
+  "SEARCH": "/search",
+  "TRASH": "/trash"
+}

@@ -14,7 +14,12 @@ export const userSlice = createSlice({
       state.isAuthenticated = !!payload.id;
       state.id = payload.id;
     },
+    setUserData: (state, { payload }) => {
+      state.email = payload.email;
+      state.firstName = payload.firstName;
+      state.lastName = payload.lastName;
+    },
   },
 });
 
-export const { setAuth } = userSlice.actions;
+export const { setAuth, setUserData } = userSlice.actions;

@@ -21,15 +21,18 @@ export function NavSide() {
   }
 
   function checkIsCurrentPage(page: string): boolean {
-    console.log(router.pathname, page);
-    return decodeURI(router.pathname).includes(page);
+    if (router.pathname.includes(ROUTES.LABELS)) {
+      // @ts-ignore
+      return page.includes(router.query.slug);
+    }
+
+    return router.pathname.includes(page);
   }
 
   const [labels, setLabels] = useState([]);
   async function getAllLabel() {
     const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
     const res = await axios.get(`${baseUrl}/api/label/${id}/all`);
-    console.log({ res });
 
     setLabels(res.data);
   }

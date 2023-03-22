@@ -1,33 +1,44 @@
+import { useRouter } from 'next/router';
 import { BsBell, BsLightbulb, BsPencil } from 'react-icons/bs';
 import { HiOutlineTrash } from 'react-icons/hi';
 import { MdLabelOutline } from 'react-icons/md';
 import { RiInboxArchiveLine } from 'react-icons/ri';
 
 import { NavButtons } from '@/components/NavSide/components/NavButtons';
+import ROUTES from '@/constants/routes.json';
 import { useNavSide } from '@/hooks/useNavSide';
 
 export function NavSide() {
   const { isNavSideClose } = useNavSide();
+  const router = useRouter();
+
+  function handleButtonNavClick(page: string) {
+    router.push(page);
+  }
+
+  function checkIsCurrentPage(page: string): boolean {
+    return router.pathname.includes(page);
+  }
 
   return (
     <section className={`flex flex-col ${isNavSideClose ? 'w-12' : 'w-60'} h-full`}>
       <NavButtons
         icon={BsLightbulb}
         label='Notes'
-        isActive={true}
+        isActive={!router.pathname.split('/')[1]}
         isNavSideClose={isNavSideClose}
         onClick={() => {
-          console.log('notes clicked');
+          handleButtonNavClick(ROUTES.HOME);
         }}
       />
 
       <NavButtons
         icon={BsBell}
         label='Reminders'
-        isActive={false}
+        isActive={checkIsCurrentPage(ROUTES.REMINDERS)}
         isNavSideClose={isNavSideClose}
         onClick={() => {
-          console.log('notes clicked');
+          handleButtonNavClick(ROUTES.REMINDERS);
         }}
       />
 
@@ -76,27 +87,27 @@ export function NavSide() {
         isActive={false}
         isNavSideClose={isNavSideClose}
         onClick={() => {
-          console.log('notes clicked');
+          // handleButtonNavClick(ROUTES.LABELS);
         }}
       />
 
       <NavButtons
         icon={RiInboxArchiveLine}
         label='Archive'
-        isActive={false}
+        isActive={checkIsCurrentPage(ROUTES.ARCHIVE)}
         isNavSideClose={isNavSideClose}
         onClick={() => {
-          console.log('notes clicked');
+          handleButtonNavClick(ROUTES.ARCHIVE);
         }}
       />
 
       <NavButtons
         icon={HiOutlineTrash}
         label='Trash'
-        isActive={false}
+        isActive={checkIsCurrentPage(ROUTES.TRASH)}
         isNavSideClose={isNavSideClose}
         onClick={() => {
-          console.log('notes clicked');
+          handleButtonNavClick(ROUTES.TRASH);
         }}
       />
     </section>

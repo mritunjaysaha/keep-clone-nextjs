@@ -6,10 +6,10 @@ export const globalSlice = createSlice({
     isNavSideClose: true,
   },
   reducers: {
-    setNavSide: (state, { payload }) => {
+    setNavSideClose: (state, { payload }) => {
       state.isNavSideClose = payload;
     },
   },
 });
 
-export const { setNavSide } = globalSlice.actions;
+export const { setNavSideClose } = globalSlice.actions;

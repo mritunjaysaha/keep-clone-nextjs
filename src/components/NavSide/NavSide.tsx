@@ -8,10 +8,12 @@ import { RiInboxArchiveLine } from 'react-icons/ri';
 
 import { NavButtons } from '@/components/NavSide/components/NavButtons';
 import ROUTES from '@/constants/routes.json';
-import { useAppSelector } from '@/hooks/redux';
+import { useAppDispatch, useAppSelector } from '@/hooks/redux';
 import { useNavSide } from '@/hooks/useNavSide';
+import { setNavSideClose } from '@/redux/slices/globalSlice';
 
 export function NavSide() {
+  const dispatch = useAppDispatch();
   const { isNavSideClose } = useNavSide();
   const router = useRouter();
   const { id } = useAppSelector((state) => state.user);
@@ -44,7 +46,15 @@ export function NavSide() {
   }, [id]);
 
   return (
-    <section className={`flex flex-col ${isNavSideClose ? 'w-12' : 'w-60'} h-full`}>
+    <section
+      className={`flex flex-col ${isNavSideClose ? 'w-16 items-center' : 'w-60'} h-full pt-2`}
+      onMouseEnter={() => {
+        dispatch(setNavSideClose(false));
+      }}
+      onMouseLeave={() => {
+        dispatch(setNavSideClose(true));
+      }}
+    >
       <NavButtons
         icon={BsLightbulb}
         label='Notes'

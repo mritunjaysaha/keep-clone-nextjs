@@ -1,5 +1,5 @@
 import { useAppDispatch, useAppSelector } from '@/hooks/redux';
-import { setNavSide } from '@/redux/slices/globalSlice';
+import { setNavSideClose } from '@/redux/slices/globalSlice';
 
 type NavSideReturn = {
   isNavSideClose: boolean;
@@ -12,7 +12,7 @@ export function useNavSide(): NavSideReturn {
   const { isNavSideClose } = useAppSelector((state) => state.global);
 
   function handleNavSide() {
-    dispatch(setNavSide(!isNavSideClose));
+    dispatch(setNavSideClose(!isNavSideClose));
   }
 
   return { isNavSideClose, handleNavSide };

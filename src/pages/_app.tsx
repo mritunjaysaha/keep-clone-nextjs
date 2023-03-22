@@ -6,12 +6,14 @@ import { Provider } from 'react-redux';
 import { Layouts } from '@/layouts/Layouts';
 import { store } from '@/redux/store';
 
-const MyApp = ({ Component, pageProps }: AppProps) => (
-  <Provider store={store}>
-    <Layouts>
-      <Component {...pageProps} />
-    </Layouts>
-  </Provider>
-);
+const MyApp = ({ Component, pageProps }: AppProps) => {
+  return (
+    <Provider store={store}>
+      <Layouts>
+        <Component {...pageProps} />
+      </Layouts>
+    </Provider>
+  );
+};
 
 export default MyApp;

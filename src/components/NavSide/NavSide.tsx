@@ -1,7 +1,6 @@
 import { useRouter } from 'next/router';
 import { BsBell, BsLightbulb, BsPencil } from 'react-icons/bs';
 import { HiOutlineTrash } from 'react-icons/hi';
-import { MdLabelOutline } from 'react-icons/md';
 import { RiInboxArchiveLine } from 'react-icons/ri';
 
 import { NavButtons } from '@/components/NavSide/components/NavButtons';
@@ -19,6 +18,17 @@ export function NavSide() {
   function checkIsCurrentPage(page: string): boolean {
     return router.pathname.includes(page);
   }
+
+  // async function getAllLabel() {
+  //   const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
+  //   console.log(baseUrl);
+  //   const res = await axios.get(`${baseUrl}/api/label/all/6410b903bfa91bc44a4c77c9`);
+  //   console.log({ res });
+  // }
+
+  // useEffect(() => {
+  //   getAllLabel();
+  // }, []);
 
   return (
     <section className={`flex flex-col ${isNavSideClose ? 'w-12' : 'w-60'} h-full`}>
@@ -43,42 +53,6 @@ export function NavSide() {
       />
 
       {/* REST OF THE LABELS WILL GO HERE */}
-      <NavButtons
-        icon={MdLabelOutline}
-        label='TBC'
-        isActive={false}
-        isNavSideClose={isNavSideClose}
-        onClick={() => {
-          console.log('notes clicked');
-        }}
-      />
-      <NavButtons
-        icon={MdLabelOutline}
-        label='TBC'
-        isActive={false}
-        isNavSideClose={isNavSideClose}
-        onClick={() => {
-          console.log('notes clicked');
-        }}
-      />
-      <NavButtons
-        icon={MdLabelOutline}
-        label='TBC'
-        isActive={false}
-        isNavSideClose={isNavSideClose}
-        onClick={() => {
-          console.log('notes clicked');
-        }}
-      />
-      <NavButtons
-        icon={MdLabelOutline}
-        label='TBC'
-        isActive={false}
-        isNavSideClose={isNavSideClose}
-        onClick={() => {
-          console.log('notes clicked');
-        }}
-      />
       {/* REST OF THE LABELS WILL GO HERE */}
 
       <NavButtons

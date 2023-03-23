@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { useRouter } from 'next/router';
+import { useRouter } from 'next/dist/client/router';
 import { useEffect, useState } from 'react';
 import { BsBell, BsLightbulb, BsPencil } from 'react-icons/bs';
 import { HiOutlineTrash } from 'react-icons/hi';
@@ -8,28 +8,21 @@ import { RiInboxArchiveLine } from 'react-icons/ri';
 
 import { NavButtons } from '@/components/NavSide/components/NavButtons';
 import ROUTES from '@/constants/routes.json';
-import { useAppDispatch, useAppSelector } from '@/hooks/redux';
+import { useAppSelector } from '@/hooks/redux';
 import { useNavSide } from '@/hooks/useNavSide';
-import { setNavSideClose } from '@/redux/slices/globalSlice';
 
 export function NavSide() {
-  const dispatch = useAppDispatch();
-  const { isNavSideClose } = useNavSide();
+  const {
+    isNavSideClose,
+    handleMouseEnter,
+    handleMouseLeave,
+    handleButtonNavClick,
+    checkIsCurrentPage,
+  } = useNavSide();
+
   const router = useRouter();
+
   const { id } = useAppSelector((state) => state.user);
-
-  function handleButtonNavClick(page: string) {
-    router.push(page);
-  }
-
-  function checkIsCurrentPage(page: string): boolean {
-    if (router.pathname.includes(ROUTES.LABELS)) {
-      // @ts-ignore
-      return page.includes(router.query.slug);
-    }
-
-    return router.pathname.includes(page);
-  }
 
   const [labels, setLabels] = useState([]);
   async function getAllLabel() {
@@ -48,12 +41,8 @@ export function NavSide() {
   return (
     <section
       className={`flex flex-col ${isNavSideClose ? 'w-16 items-center' : 'w-60'} h-full pt-2`}
-      onMouseEnter={() => {
-        dispatch(setNavSideClose(false));
-      }}
-      onMouseLeave={() => {
-        dispatch(setNavSideClose(true));
-      }}
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
     >
       <NavButtons
         icon={BsLightbulb}

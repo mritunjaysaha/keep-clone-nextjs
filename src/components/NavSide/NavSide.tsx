@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { useRouter } from 'next/router';
+import { useRouter } from 'next/dist/client/router';
 import { useEffect, useState } from 'react';
 import { BsBell, BsLightbulb, BsPencil } from 'react-icons/bs';
 import { HiOutlineTrash } from 'react-icons/hi';
@@ -12,24 +12,22 @@ import { useAppSelector } from '@/hooks/redux';
 import { useNavSide } from '@/hooks/useNavSide';
 
 export function NavSide() {
-  const { isNavSideClose } = useNavSide();
+  const {
+    isNavSideClose,
+    handleMouseEnter,
+    handleMouseLeave,
+    handleButtonNavClick,
+    checkIsCurrentPage,
+  } = useNavSide();
+
   const router = useRouter();
+
   const { id } = useAppSelector((state) => state.user);
-
-  function handleButtonNavClick(page: string) {
-    router.push(page);
-  }
-
-  function checkIsCurrentPage(page: string): boolean {
-    console.log(router.pathname, page);
-    return decodeURI(router.pathname).includes(page);
-  }
 
   const [labels, setLabels] = useState([]);
   async function getAllLabel() {
     const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
     const res = await axios.get(`${baseUrl}/api/label/${id}/all`);
-    console.log({ res });
 
     setLabels(res.data);
   }
@@ -41,7 +39,11 @@ export function NavSide() {
   }, [id]);
 
   return (
-    <section className={`flex flex-col ${isNavSideClose ? 'w-12' : 'w-60'} h-full`}>
+    <section
+      className={`flex flex-col ${isNavSideClose ? 'w-16 items-center' : 'w-60'} h-full pt-2`}
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
+    >
       <NavButtons
         icon={BsLightbulb}
         label='Notes'

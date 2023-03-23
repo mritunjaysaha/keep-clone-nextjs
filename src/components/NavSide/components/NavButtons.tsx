@@ -16,11 +16,11 @@ export function NavButtons({
   return (
     <button
       onClick={onClick}
-      className={`flex items-center ${
-        isNavSideClose ? 'justify-center' : 'rounded-r-full rounded-l-none pl-2'
+      className={`flex h-12 items-center ${
+        isNavSideClose ? 'w-12 justify-center rounded-full' : 'rounded-r-full rounded-l-none pl-2'
       } ${
-        isActive && !isNavSideClose ? 'bg-yellow-200 dark:bg-yellow-800' : ''
-      } border-1 hover:border-blue h-12 border-transparent hover:bg-gray-50 dark:hover:bg-gray-600`}
+        isActive ? 'bg-yellow-200 dark:bg-yellow-800' : ''
+      } border-1 hover:border-blue border-transparent hover:bg-gray-50 dark:hover:bg-gray-600`}
     >
       <Icon size={20} />
       <span className={`${isNavSideClose ? 'hidden' : 'w-full'} pl-4 text-left text-lg`}>

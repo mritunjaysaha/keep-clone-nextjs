@@ -1,13 +1,16 @@
 import { IoMenuSharp } from 'react-icons/io5';
 
-import { useNavSide } from '@/hooks/useNavSide';
+import { useAppDispatch, useAppSelector } from '@/hooks/redux';
+import { setMenuClicked, setNavSideClose } from '@/redux/slices/globalSlice';
 
 export function HamburgerMenu() {
-  const { handleNavSide } = useNavSide();
+  const dispatch = useAppDispatch();
+
+  const { isNavSideClose } = useAppSelector((store) => store.global);
 
   function handleMenuButtonClick() {
-    console.log('hamburger menu clicked');
-    handleNavSide();
+    dispatch(setMenuClicked());
+    dispatch(setNavSideClose(!isNavSideClose));
   }
 
   return (

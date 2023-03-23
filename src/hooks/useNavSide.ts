@@ -1,19 +1,52 @@
+import { useRouter } from 'next/router';
+import type { MouseEventHandler } from 'react';
+
+import ROUTES from '@/constants/routes.json';
 import { useAppDispatch, useAppSelector } from '@/hooks/redux';
-import { setNavSide } from '@/redux/slices/globalSlice';
+import { setNavSideClose } from '@/redux/slices/globalSlice';
 
 type NavSideReturn = {
   isNavSideClose: boolean;
-  handleNavSide: Function;
+  handleMouseEnter: MouseEventHandler<HTMLElement>;
+  handleMouseLeave: MouseEventHandler<HTMLElement>;
+  handleButtonNavClick: Function;
+  checkIsCurrentPage: Function;
 };
 
 export function useNavSide(): NavSideReturn {
   const dispatch = useAppDispatch();
+  const router = useRouter();
 
-  const { isNavSideClose } = useAppSelector((state) => state.global);
+  const { isNavSideClose, isMenuClicked } = useAppSelector((state) => state.global);
 
-  function handleNavSide() {
-    dispatch(setNavSide(!isNavSideClose));
+  function handleMouseEnter() {
+    dispatch(setNavSideClose(false));
   }
 
-  return { isNavSideClose, handleNavSide };
+  function handleMouseLeave() {
+    if (!isMenuClicked) {
+      dispatch(setNavSideClose(true));
+    }
+  }
+
+  function handleButtonNavClick(page: string) {
+    router.push(page);
+  }
+
+  function checkIsCurrentPage(page: string): boolean {
+    if (router.pathname.includes(ROUTES.LABELS)) {
+      // @ts-ignore
+      return page.includes(router.query.slug);
+    }
+
+    return router.pathname.includes(page);
+  }
+
+  return {
+    isNavSideClose,
+    handleMouseEnter,
+    handleMouseLeave,
+    handleButtonNavClick,
+    checkIsCurrentPage,
+  };
 }

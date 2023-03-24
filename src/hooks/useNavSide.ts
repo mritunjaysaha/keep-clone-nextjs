@@ -7,6 +7,7 @@ import { setNavSideClose } from '@/redux/slices/globalSlice';
 
 type NavSideReturn = {
   isNavSideClose: boolean;
+  isMenuClicked: boolean;
   handleMouseEnter: MouseEventHandler<HTMLElement>;
   handleMouseLeave: MouseEventHandler<HTMLElement>;
   handleButtonNavClick: Function;
@@ -44,6 +45,7 @@ export function useNavSide(): NavSideReturn {
 
   return {
     isNavSideClose,
+    isMenuClicked,
     handleMouseEnter,
     handleMouseLeave,
     handleButtonNavClick,

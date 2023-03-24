@@ -14,6 +14,7 @@ import { useNavSide } from '@/hooks/useNavSide';
 export function NavSide() {
   const {
     isNavSideClose,
+    isMenuClicked,
     handleMouseEnter,
     handleMouseLeave,
     handleButtonNavClick,
@@ -40,7 +41,9 @@ export function NavSide() {
 
   return (
     <section
-      className={`flex flex-col ${isNavSideClose ? 'w-16 items-center' : 'w-60'} h-full pt-2`}
+      className={`flex flex-col ${isNavSideClose ? 'w-16 items-center' : 'w-60'} h-full pt-2 ${
+        !isMenuClicked ? 'hover:shadow-xl' : ''
+      }`}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
     >

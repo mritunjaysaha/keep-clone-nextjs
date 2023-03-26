@@ -3,7 +3,8 @@
   "extends": [
     "airbnb-base",
     "next/core-web-vitals", // Needed to avoid warning in next.js build: 'The Next.js plugin was not detected in your ESLint configuration'
-    "plugin:prettier/recommended"
+    "plugin:prettier/recommended",
+    "plugin:@tanstack/eslint-plugin-query/recommended"
   ],
   "rules": {
     "no-param-reassign": 0,
@@ -19,7 +20,9 @@
     "spaced-comment": "error",
     "quotes": ["error", "single"],
     "tailwindcss/no-custom-classname": 0,
-    "@typescript-eslint/restrict-template-expressions": 0
+    "@typescript-eslint/restrict-template-expressions": 0,
+    "@tanstack/query/exhaustive-deps": "error",
+    "@tanstack/query/prefer-query-object-syntax": "error"
   },
   "overrides": [
     // Configuration for TypeScript files

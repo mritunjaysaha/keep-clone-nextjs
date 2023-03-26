@@ -44,6 +44,7 @@
     "@semantic-release/changelog": "^6.0.2",
     "@semantic-release/git": "^10.0.1",
     "@svgr/webpack": "^6.5.1",
+    "@tanstack/eslint-plugin-query": "^4.27.0",
     "@testing-library/cypress": "^9.0.0",
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^14.0.0",

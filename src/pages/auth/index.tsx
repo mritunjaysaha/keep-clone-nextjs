@@ -1,29 +1,24 @@
-import axios from 'axios';
+import { useEffect } from 'react';
+import { useQuery } from 'react-query';
 
 import { useAppDispatch } from '@/hooks/redux';
 import { setAuth, setUserData } from '@/redux/slices/userSclice';
+import { login } from '@/request/httpCalls/auth/login';
 import { setAuthToken } from '@/utils/setAuthToken';
 
 const Auth = () => {
   const dispatch = useAppDispatch();
 
-  async function logIn() {
-    axios
-      .post(`${process.env.NEXT_PUBLIC_BASE_URL}/api/auth/login`, {
-        email: 'admin@test.com',
-        password: '123456',
-      })
-      .then((res) => {
-        const { data } = res;
-        console.log({ data });
-        // window.localStorage.setItem('jwtToken', data.token);
-        setAuthToken(data.token);
-        dispatch(setAuth({ id: data.user.id }));
-        dispatch(setUserData(data.user));
-      });
-  }
+  const { data, isError } = useQuery('login', login);
 
-  logIn();
+  useEffect(() => {
+    if (!isError && data) {
+      window.localStorage.setItem('jwtToken', data.token);
+      setAuthToken(data.token);
+      dispatch(setAuth({ id: data.user.id }));
+      dispatch(setUserData(data.user));
+    }
+  }, [data]);
 
   return (
     <section>

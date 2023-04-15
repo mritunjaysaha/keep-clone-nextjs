@@ -19,25 +19,6 @@ export function NavSide() {
 
   const router = useRouter();
 
-  // const { id } = useAppSelector((state) => state.user);
-
-  // const [labels, setLabels] = useState([]);
-  // // async function useGetAllLabel() {
-  // const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
-  // const { isLoading, error, data, isFetching } = useQuery({
-  //   queryFn: () => axiosInstance.get(`/api/label/${id}/all`).then((res) => res.data),
-  // });
-
-  // console.log({ data, isLoading, error, isFetching });
-  // setLabels(data);
-  // }
-
-  // useEffect(() => {
-  //   if (id) {
-  //     getAllLabel();
-  //   }
-  // }, [id]);
-
   return (
     <section
       className={`flex flex-col ${isNavSideClose ? 'w-16 items-center' : 'w-60'} h-full pt-2 ${
@@ -65,21 +46,6 @@ export function NavSide() {
           handleButtonNavClick(ROUTES.REMINDERS);
         }}
       />
-
-      {/* REST OF THE LABELS WILL GO HERE */}
-      {/* {labels.map(({ labelName }, index) => (
-        <NavButtons
-          key={index}
-          icon={MdLabelOutline}
-          label={labelName}
-          isActive={checkIsCurrentPage(`${ROUTES.LABELS}/${labelName}`)}
-          isNavSideClose={isNavSideClose}
-          onClick={() => {
-            handleButtonNavClick(`${ROUTES.LABELS}/${labelName}`);
-          }}
-        />
-      ))} */}
-      {/* REST OF THE LABELS WILL GO HERE */}
 
       <NavButtons
         icon={BsPencil}

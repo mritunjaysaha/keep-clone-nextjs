@@ -3,7 +3,7 @@ import { persistReducer, persistStore } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
 
 import { globalSlice } from '@/redux/slices/globalSlice';
-import { userSlice } from '@/redux/slices/userSclice';
+import { userSlice } from '@/redux/slices/userSlice';
 
 const persistConfig = {
   key: 'root',

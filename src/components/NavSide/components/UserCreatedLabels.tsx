@@ -5,7 +5,7 @@ import { NavButtons } from '@/components/NavSide/components/NavButtons';
 import ROUTES from '@/constants/routes.json';
 import { useAppDispatch, useAppSelector } from '@/hooks/redux';
 import { useNavSide } from '@/hooks/useNavSide';
-import { setLabels } from '@/redux/slices/userSclice';
+import { setLabels } from '@/redux/slices/userSlice';
 import { getAllLabelsByUserId } from '@/request/httpCalls/labels/getAllLabelsByUserId';
 import type { Label } from '@/types/labels/Label';
 

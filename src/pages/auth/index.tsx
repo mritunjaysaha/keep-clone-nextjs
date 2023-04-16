@@ -4,7 +4,7 @@ import { useQuery } from 'react-query';
 
 import ROUTES from '@/constants/routes.json';
 import { useAppDispatch } from '@/hooks/redux';
-import { setAuth, setUserData } from '@/redux/slices/userSclice';
+import { setAuth, setUserData } from '@/redux/slices/userSlice';
 import { login } from '@/request/httpCalls/auth/login';
 import { setAuthToken } from '@/utils/setAuthToken';
 

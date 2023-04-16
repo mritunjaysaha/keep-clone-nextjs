@@ -4,6 +4,7 @@ import { HiOutlineTrash } from 'react-icons/hi';
 import { RiInboxArchiveLine } from 'react-icons/ri';
 
 import { NavButtons } from '@/components/NavSide/components/NavButtons';
+import { UserCreatedLabels } from '@/components/NavSide/components/UserCreatedLabels';
 import ROUTES from '@/constants/routes.json';
 import { useNavSide } from '@/hooks/useNavSide';
 
@@ -46,6 +47,8 @@ export function NavSide() {
           handleButtonNavClick(ROUTES.REMINDERS);
         }}
       />
+
+      <UserCreatedLabels />
 
       <NavButtons
         icon={BsPencil}

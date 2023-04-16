@@ -7,11 +7,13 @@ export const userSlice = createSlice({
     email: '',
     firstName: '',
     lastName: '',
+    jwtToken: '',
     labels: [],
   },
   reducers: {
     setAuth: (state, { payload }) => {
-      state.isAuthenticated = !!payload.id;
+      state.isAuthenticated = !!payload;
+      state.jwtToken = payload;
     },
     setUserData: (state, { payload }) => {
       state.email = payload.email;

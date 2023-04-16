@@ -1,22 +1,25 @@
+import { useRouter } from 'next/router';
 import { useEffect } from 'react';
 import { useQuery } from 'react-query';
 
+import ROUTES from '@/constants/routes.json';
 import { useAppDispatch } from '@/hooks/redux';
 import { setAuth, setUserData } from '@/redux/slices/userSclice';
 import { login } from '@/request/httpCalls/auth/login';
 import { setAuthToken } from '@/utils/setAuthToken';
 
 const Auth = () => {
+  const router = useRouter();
   const dispatch = useAppDispatch();
 
   const { data, isError } = useQuery('login', login);
 
   useEffect(() => {
     if (!isError && data) {
-      window.localStorage.setItem('jwtToken', data.token);
       setAuthToken(data.token);
-      dispatch(setAuth({ id: data.user.id }));
+      dispatch(setAuth(data.token));
       dispatch(setUserData(data.user));
+      router.push(ROUTES.HOME);
     }
   }, [data]);
 

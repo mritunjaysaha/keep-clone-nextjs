@@ -35,7 +35,6 @@ export function UserCreatedLabels() {
       {data.map(({ labelName, labelId }: Label) => {
         const labelRoute = `${ROUTES.LABELS}/${labelId}`;
 
-        /* @ts-ignore */
         return (
           <NavButtons
             key={labelId}

@@ -1,6 +1,6 @@
 export type Todo = {
   todoId: string;
-  tittle: string;
+  title: string;
   body: string;
   isPinned: boolean;
   labels: string[];

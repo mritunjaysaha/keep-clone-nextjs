@@ -3,6 +3,7 @@ import { useEffect } from 'react';
 
 import { Nav } from '@/components/Nav/Nav';
 import { NavSide } from '@/components/NavSide/NavSide';
+import { TakeANote } from '@/components/TakeANote/TakeANote';
 import ROUTES from '@/constants/routes.json';
 import { useAppSelector } from '@/hooks/redux';
 import { setAuthToken } from '@/utils/setAuthToken';
@@ -23,7 +24,7 @@ export function Layouts({ children }: ILayouts) {
   }, []);
 
   return (
-    <section className='h-screen w-screen bg-white text-black dark:bg-slate-900 dark:text-white '>
+    <section className='h-screen w-screen overflow-hidden bg-white text-black dark:bg-slate-900 dark:text-white'>
       {/* head */}
       <Nav />
 
@@ -32,7 +33,10 @@ export function Layouts({ children }: ILayouts) {
         {/* left */}
         <NavSide />
         {/* right */}
-        <section className='w-full'>{children}</section>
+        <section className='w-full'>
+          <TakeANote />
+          {children}
+        </section>
       </section>
     </section>
   );

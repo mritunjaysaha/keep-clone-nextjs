@@ -3,7 +3,9 @@ import { LayoutPage } from '@/layouts/LayoutsPage';
 const Index = () => {
   return (
     <LayoutPage>
-      <p>Home</p>
+      <>
+        <p>Home</p>
+      </>
     </LayoutPage>
   );
 };

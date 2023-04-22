@@ -5,7 +5,10 @@ module.exports = {
   theme: {
     boxSizing: 'border-box',
     extend: {
-      colors: {},
+      colors: {
+        dark: '#202124',
+        light: '#ffffff',
+      },
       height: {
         '10v': '9.8vh',
         '90v': '90vh',

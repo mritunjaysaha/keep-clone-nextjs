@@ -24,12 +24,12 @@ export function Layouts({ children }: ILayouts) {
   }, []);
 
   return (
-    <section className='h-screen w-screen overflow-hidden bg-white text-black dark:bg-slate-900 dark:text-white'>
+    <section className='h-screen w-screen overflow-hidden bg-light text-black dark:bg-dark dark:text-white'>
       {/* head */}
       <Nav />
 
       {/* body */}
-      <section className='flex h-90v w-screen bg-white dark:bg-slate-900'>
+      <section className='flex h-90v w-screen bg-light dark:bg-dark'>
         {/* left */}
         <NavSide />
         {/* right */}

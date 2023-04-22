@@ -20,7 +20,7 @@ export function TakeANote() {
     <section
       className={`box-shadow-editor mx-auto my-8 flex ${
         isActive ? 'h-max' : 'h-12'
-      } w-50vw flex-col justify-center rounded-md bg-slate-300 p-2`}
+      } w-50vw flex-col justify-center rounded-md bg-inherit p-2`}
       onBlur={handleActive}
     >
       <form className='w-2/3'>

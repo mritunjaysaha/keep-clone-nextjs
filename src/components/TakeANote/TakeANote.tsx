@@ -2,6 +2,7 @@ import type { SubmitHandler } from 'react-hook-form';
 import { useForm } from 'react-hook-form';
 
 import type { Todo } from '@/types/todos/Todo';
+import { debounce } from '@/utils/debounce';
 
 type TodoFormData = Pick<Todo, 'title' | 'body'>;
 
@@ -12,23 +13,6 @@ export function TakeANote() {
     console.log(data);
   };
 
-  function debounce<T extends (...args: any[]) => void>(
-    func: T,
-    delay: number,
-  ) {
-    let timer: ReturnType<typeof setTimeout> | undefined;
-
-    return function (this: unknown, ...args: Parameters<T>) {
-      const that = this;
-
-      clearTimeout(timer);
-
-      timer = setTimeout(function () {
-        func.apply(that, args);
-      }, delay);
-    };
-  }
-
   const debounceSubmit = debounce(handleSubmit(onSubmit), 500);
 
   return (
@@ -37,24 +21,31 @@ export function TakeANote() {
        w-50vw flex-col justify-center rounded-md bg-inherit p-4`}
     >
       <form
-        className='flex w-2/3 flex-col gap-4'
+        className='flex w-full flex-col gap-4'
         onSubmit={handleSubmit(onSubmit)}
       >
-        <input
+        <textarea
           {...register('title', {
             onChange: () => {
               debounceSubmit();
             },
           })}
           placeholder='Title'
+          rows={1}
+          className='w-full resize-none overflow-hidden rounded border py-2 px-3 leading-tight text-gray-700 focus:outline-none'
         />
-        <input
+        <textarea
           {...register('body', {
-            onChange: () => {
+            onChange: (e) => {
               debounceSubmit();
+
+              e.target.style.height = 'auto';
+              e.target.style.height = `${e.target.scrollHeight}px`;
             },
           })}
           placeholder='Take a note...'
+          className='w-full resize-none overflow-hidden rounded border py-2 px-3 leading-tight text-gray-700 focus:outline-none'
+          rows={2}
         />
       </form>
     </section>

@@ -37,7 +37,7 @@ export function TakeANote() {
         className='flex w-full flex-col gap-4'
         onSubmit={handleSubmit(onSubmit)}
       >
-        <div className='flex'>
+        <div className='flex items-baseline'>
           <TextArea
             {...register('title', {
               onChange: handleTextAreaChange,

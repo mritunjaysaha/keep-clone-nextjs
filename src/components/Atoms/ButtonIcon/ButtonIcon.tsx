@@ -9,7 +9,7 @@ type ButtonIconProps = {
 export function ButtonIcon({ icon: Icon, size, ...rest }: ButtonIconProps) {
   return (
     <button
-      className='m-2 flex items-center rounded-full p-2 hover:bg-slate-100'
+      className='m-2 flex items-center rounded-full p-2 hover:bg-gray-100 dark:hover:bg-gray-700'
       {...rest}
     >
       <Icon size={size} />

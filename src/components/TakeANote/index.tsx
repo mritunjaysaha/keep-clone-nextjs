@@ -7,6 +7,7 @@ import OutsideClickHandler from 'react-outside-click-handler';
 
 import { ButtonIcon } from '@/components/Atoms/ButtonIcon/ButtonIcon';
 import { TextArea } from '@/components/Atoms/TextArea/TextArea';
+import { BackgroundColorSelector } from '@/components/TakeANote/BackgroundColorSelector';
 import type { Todo } from '@/types/todos/Todo';
 import { debounce } from '@/utils/debounce';
 
@@ -16,7 +17,7 @@ export function TakeANote() {
   const { register, handleSubmit } = useForm<TodoFormData>();
   const [isPinned, setIsPinned] = useState(false);
   const [isClicked, setIsClicked] = useState(false);
-  const [selectedBg, setSelectedBg] = useState('bg-inherit');
+  const [selectedBg, setSelectedBg] = useState('inherit');
 
   const ref = useRef(null);
 
@@ -33,13 +34,13 @@ export function TakeANote() {
     e.target.style.height = `${e.target.scrollHeight}px`;
   }
 
+  const backgroundColor = isClicked ? `bg-${selectedBg}-200` : 'bg-inherit';
+
   return (
     <section
       ref={ref}
       className={`box-shadow-editor mx-auto my-8 flex min-h-0
-       w-50vw flex-col justify-center rounded-md ${
-         isClicked ? selectedBg : 'bg-inherit'
-       } p-4 `}
+       w-50vw flex-col justify-center rounded-md ${backgroundColor} p-4 `}
     >
       <OutsideClickHandler onOutsideClick={() => setIsClicked(false)}>
         {!isClicked && (
@@ -90,35 +91,16 @@ export function TakeANote() {
               onClick={(e) => {
                 if (!ref.current) return;
                 // @ts-ignore
-                const { dataset } = e.target;
+                const datasetBg = e.target.closest('[data-bg]')?.dataset?.bg;
 
-                setSelectedBg(`bg-${dataset.bg}-200`);
+                console.log({ datasetBg });
+
+                if (datasetBg) {
+                  setSelectedBg(`${datasetBg}`);
+                }
               }}
             >
-              <button
-                data-bg='red'
-                className='h-20 w-20 rounded-full bg-red-300'
-              ></button>
-              <button
-                data-bg='blue'
-                className='h-20 w-20 rounded-full bg-blue-300'
-              ></button>
-              <button
-                data-bg='green'
-                className='h-20 w-20 rounded-full bg-green-300'
-              ></button>
-              <button
-                data-bg='yellow'
-                className='h-20 w-20 rounded-full bg-yellow-300'
-              ></button>
-              <button
-                data-bg='slate'
-                className='h-20 w-20 rounded-full bg-slate-300'
-              ></button>
-              <button
-                data-bg='gray'
-                className='h-20 w-20 rounded-full bg-gray-300'
-              ></button>
+              <BackgroundColorSelector currentBackgroundColor={selectedBg} />
             </section>
           </>
         )}

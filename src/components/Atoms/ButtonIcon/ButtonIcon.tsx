@@ -2,8 +2,8 @@ import type { MouseEventHandler } from 'react';
 
 type ButtonIconProps = {
   icon: any;
-  size: number;
-  onClick: MouseEventHandler<HTMLButtonElement>;
+  size?: number;
+  onClick?: MouseEventHandler<HTMLButtonElement>;
 };
 
 export function ButtonIcon({ icon: Icon, size, ...rest }: ButtonIconProps) {

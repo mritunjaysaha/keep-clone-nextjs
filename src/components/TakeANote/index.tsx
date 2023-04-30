@@ -1,3 +1,4 @@
+import { createRef, useState } from 'react';
 import { BiArchiveIn } from 'react-icons/bi';
 import { BsPin, BsPinFill } from 'react-icons/bs';
 import { GoKebabVertical } from 'react-icons/go';
@@ -8,7 +9,10 @@ import OutsideClickHandler from 'react-outside-click-handler';
 import { ButtonIcon } from '@/components/Atoms/ButtonIcon/ButtonIcon';
 import { TextArea } from '@/components/Atoms/TextArea/TextArea';
 import { BackgroundColorSelector } from '@/components/TakeANote/BackgroundColorSelector';
+import { Tooltip } from '@/components/Tooltip';
 import { useTakeANote } from '@/hooks/useTakeANote';
+
+const btnRef = createRef();
 
 export function TakeANote() {
   const {
@@ -24,6 +28,18 @@ export function TakeANote() {
     handleShowColorSelector,
     handleSelectBackgroundColor,
   } = useTakeANote();
+
+  const [isOn, setOn] = useState(false); // toggles dropdown visibility
+  const [coords, setCoords] = useState({}); // takes current button coordinates
+
+  // @ts-ignore
+  const updateTooltipCoords = (button) => {
+    const rect = button.getBoundingClientRect();
+    setCoords({
+      left: rect.x + rect.width / 2, // add half the width of the button for centering
+      top: rect.y + window.scrollY, // add scrollY offset, as soon as getBountingClientRect takes on screen coords
+    });
+  };
 
   return (
     <section
@@ -79,7 +95,13 @@ export function TakeANote() {
                   icon={MdOutlineColorLens}
                   onClick={handleShowColorSelector}
                 />
-                <ButtonIcon icon={IoImageOutline} />
+                <ButtonIcon
+                  icon={IoImageOutline}
+                  onClick={(e) => {
+                    updateTooltipCoords(e.target);
+                    setOn(!isOn);
+                  }}
+                />
                 <ButtonIcon icon={BiArchiveIn} />
                 <ButtonIcon icon={GoKebabVertical} />
               </div>
@@ -91,6 +113,18 @@ export function TakeANote() {
                 ''
               )}
             </div>
+
+            {isOn && (
+              <Tooltip
+                coords={coords}
+                updateTooltipCoords={() =>
+                  // @ts-ignore
+                  updateTooltipCoords(btnRef.current.buttonNode)
+                }
+              >
+                <p>button</p>
+              </Tooltip>
+            )}
           </>
         )}
       </OutsideClickHandler>

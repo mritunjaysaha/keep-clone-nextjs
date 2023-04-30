@@ -12,11 +12,13 @@ export function ButtonIcon({
   ...rest
 }: ButtonIconProps) {
   return (
-    <button
-      className='m-2 flex items-center rounded-full p-2 hover:bg-gray-100 dark:hover:bg-gray-700'
-      {...rest}
-    >
-      <Icon size={size} />
-    </button>
+    <>
+      <button
+        className='m-2 flex items-center rounded-full p-2 hover:bg-gray-100 dark:hover:bg-gray-700'
+        {...rest}
+      >
+        <Icon size={size} />
+      </button>
+    </>
   );
 }

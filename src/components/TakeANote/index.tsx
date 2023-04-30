@@ -1,40 +1,29 @@
-import type { ChangeEvent } from 'react';
-import { useRef, useState } from 'react';
-import type { SubmitHandler } from 'react-hook-form';
-import { useForm } from 'react-hook-form';
+import { BiArchiveIn } from 'react-icons/bi';
 import { BsPin, BsPinFill } from 'react-icons/bs';
+import { GoKebabVertical } from 'react-icons/go';
+import { IoImageOutline } from 'react-icons/io5';
+import { MdOutlineColorLens } from 'react-icons/md';
 import OutsideClickHandler from 'react-outside-click-handler';
 
 import { ButtonIcon } from '@/components/Atoms/ButtonIcon/ButtonIcon';
 import { TextArea } from '@/components/Atoms/TextArea/TextArea';
 import { BackgroundColorSelector } from '@/components/TakeANote/BackgroundColorSelector';
-import type { Todo } from '@/types/todos/Todo';
-import { debounce } from '@/utils/debounce';
-
-type TodoFormData = Pick<Todo, 'title' | 'body'>;
+import { useTakeANote } from '@/hooks/useTakeANote';
 
 export function TakeANote() {
-  const { register, handleSubmit } = useForm<TodoFormData>();
-  const [isPinned, setIsPinned] = useState(false);
-  const [isClicked, setIsClicked] = useState(false);
-  const [selectedBg, setSelectedBg] = useState('inherit');
-
-  const ref = useRef(null);
-
-  const onSubmit: SubmitHandler<TodoFormData> = (data) => {
-    console.log(data);
-  };
-
-  const debounceSubmit = debounce(handleSubmit(onSubmit), 500);
-
-  function handleTextAreaChange(e: ChangeEvent<HTMLTextAreaElement>) {
-    debounceSubmit();
-
-    e.target.style.height = 'auto';
-    e.target.style.height = `${e.target.scrollHeight}px`;
-  }
-
-  const backgroundColor = isClicked ? `bg-${selectedBg}-200` : 'bg-inherit';
+  const {
+    ref,
+    state,
+    register,
+    handleSubmit,
+    onSubmit,
+    handleTextAreaChange,
+    backgroundColor,
+    handlePinClick,
+    handleTakeANoteClicked,
+    handleShowColorSelector,
+    handleSelectBackgroundColor,
+  } = useTakeANote();
 
   return (
     <section
@@ -42,25 +31,22 @@ export function TakeANote() {
       className={`box-shadow-editor mx-auto my-8 flex min-h-0
        w-50vw flex-col justify-center rounded-md ${backgroundColor} p-4 `}
     >
-      <OutsideClickHandler onOutsideClick={() => setIsClicked(false)}>
-        {!isClicked && (
+      <OutsideClickHandler onOutsideClick={() => handleTakeANoteClicked(false)}>
+        {!state.isTakeANoteClicked && (
           <p
             onClick={() => {
-              setIsClicked(true);
+              handleTakeANoteClicked(true);
             }}
             className='px-3 text-slate-500'
           >
             Take a note ...
           </p>
         )}
-        {isClicked && (
+        {state.isTakeANoteClicked && (
           <>
             <form
               className='flex w-full flex-col gap-4'
               onSubmit={handleSubmit(onSubmit)}
-              onClick={() => {
-                setIsClicked(true);
-              }}
             >
               <div className='flex items-baseline'>
                 <TextArea
@@ -70,11 +56,9 @@ export function TakeANote() {
                   placeholder='Title'
                 />
                 <ButtonIcon
-                  icon={isPinned ? BsPinFill : BsPin}
+                  icon={state.isPinned ? BsPinFill : BsPin}
                   size={20}
-                  onClick={() => {
-                    setIsPinned(!isPinned);
-                  }}
+                  onClick={handlePinClick}
                 ></ButtonIcon>
               </div>{' '}
               <TextArea
@@ -86,22 +70,27 @@ export function TakeANote() {
               />
             </form>
 
-            <section
-              className='flex'
-              onClick={(e) => {
-                if (!ref.current) return;
-                // @ts-ignore
-                const datasetBg = e.target.closest('[data-bg]')?.dataset?.bg;
-
-                console.log({ datasetBg });
-
-                if (datasetBg) {
-                  setSelectedBg(`${datasetBg}`);
-                }
-              }}
+            <div
+              className='flex flex-col'
+              onClick={handleSelectBackgroundColor}
             >
-              <BackgroundColorSelector currentBackgroundColor={selectedBg} />
-            </section>
+              <div className='flex gap-1'>
+                <ButtonIcon
+                  icon={MdOutlineColorLens}
+                  onClick={handleShowColorSelector}
+                />
+                <ButtonIcon icon={IoImageOutline} />
+                <ButtonIcon icon={BiArchiveIn} />
+                <ButtonIcon icon={GoKebabVertical} />
+              </div>
+              {state.showColorSelector ? (
+                <BackgroundColorSelector
+                  currentBackgroundColor={state.selectedBackground}
+                />
+              ) : (
+                ''
+              )}
+            </div>
           </>
         )}
       </OutsideClickHandler>

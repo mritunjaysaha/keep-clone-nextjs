@@ -20,7 +20,7 @@ export const Tooltip = ({ children, coords, updateTooltipCoords }) => {
   return (
     <Portal>
       <div
-        className='absolute -translate-x-1/2 translate-y-full bg-red-500'
+        className='absolute m-0 -translate-x-1/2 translate-y-full'
         style={{ ...coords }}
       >
         {children}

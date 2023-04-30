@@ -1,0 +1,26 @@
+export const editorTheme = {
+  backgroundColor: {
+    red: 'bg-red-200',
+    orange: 'bg-orange-200',
+    yellow: 'bg-yellow-200',
+    green: 'bg-green-200',
+    teal: 'bg-teal-200',
+    blue: 'bg-blue-200',
+    purple: 'bg-purple-200',
+    pink: 'bg-pink-200',
+    violet: 'bg-violet-200',
+    gray: 'bg-gray-200',
+  },
+  buttonColor: {
+    red: 'bg-red-300',
+    orange: 'bg-orange-300',
+    yellow: 'bg-yellow-300',
+    green: 'bg-green-300',
+    teal: 'bg-teal-300',
+    blue: 'bg-blue-300',
+    purple: 'bg-purple-300',
+    pink: 'bg-pink-300',
+    violet: 'bg-violet-300',
+    gray: 'bg-gray-300',
+  },
+};

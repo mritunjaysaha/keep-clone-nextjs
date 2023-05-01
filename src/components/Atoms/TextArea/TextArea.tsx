@@ -7,7 +7,7 @@ export function TextArea({
   return (
     <textarea
       rows={rows}
-      className='max-h-96 w-full resize-none overflow-auto rounded bg-inherit py-2 px-3  leading-tight text-gray-700 focus:outline-none dark:text-gray-300'
+      className='max-h-96 w-full resize-none overflow-auto rounded bg-inherit py-2 px-3  leading-tight text-gray-900 focus:outline-none dark:text-gray-200'
       {...rest}
     />
   );

@@ -11,7 +11,10 @@ const { buttonColor } = editorTheme;
 
 export const BackgroundColorSelector = ({ currentBackgroundColor }: Props) => {
   return (
-    <div className='flex gap-1 bg-light dark:bg-dark'>
+    <div
+      className='box-shadow-editor absolute bottom-0  left-1/2 flex w-max translate-y-1/2
+    -translate-x-1/2 gap-1  rounded-md bg-light p-2 dark:bg-dark'
+    >
       <ButtonBGColor
         color='inherit'
         isCurrentColor={currentBackgroundColor === 'inherit'}

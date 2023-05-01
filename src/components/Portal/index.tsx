@@ -9,7 +9,6 @@ export const Portal = ({ children }) => {
   // @ts-ignore
   useEffect(() => {
     mount?.appendChild(el);
-    console.log('[Portal]', { mount });
 
     return () => mount?.removeChild(el);
   }, [el, mount]);

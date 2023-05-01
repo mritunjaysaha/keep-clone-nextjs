@@ -18,7 +18,6 @@ export function TakeANote() {
     handleSubmit,
     onSubmit,
     handleTextAreaChange,
-    backgroundColor,
     handlePinClick,
     handleTakeANoteClicked,
     handleShowColorSelector,
@@ -26,12 +25,13 @@ export function TakeANote() {
   } = useTakeANote();
 
   return (
-    <section
-      ref={ref}
-      className={`box-shadow-editor mx-auto my-8 flex min-h-0
-       w-50vw flex-col justify-center rounded-md ${backgroundColor} p-4 `}
-    >
-      <OutsideClickHandler onOutsideClick={() => handleTakeANoteClicked(false)}>
+    <OutsideClickHandler onOutsideClick={() => handleTakeANoteClicked(false)}>
+      <section
+        ref={ref}
+        className={`box-shadow-editor relative mx-auto my-8 flex min-h-0
+       w-50vw flex-col justify-center rounded-md ${state.selectedBackground} p-2`}
+        onClick={handleSelectBackgroundColor}
+      >
         {!state.isTakeANoteClicked && (
           <p
             onClick={() => {
@@ -71,10 +71,7 @@ export function TakeANote() {
               />
             </form>
 
-            <div
-              className='flex flex-col'
-              onClick={handleSelectBackgroundColor}
-            >
+            <div className='relative flex flex-col'>
               <div className='flex gap-1'>
                 <ButtonIcon
                   icon={MdOutlineColorLens}
@@ -85,17 +82,18 @@ export function TakeANote() {
                 <ButtonIcon icon={BiArchiveIn} tooltip='Archive' />
                 <ButtonIcon icon={GoKebabVertical} tooltip='More' />
               </div>
-              {state.showColorSelector ? (
-                <BackgroundColorSelector
-                  currentBackgroundColor={state.selectedBackground}
-                />
-              ) : (
-                ''
-              )}
             </div>
+
+            {state.showColorSelector ? (
+              <BackgroundColorSelector
+                currentBackgroundColor={state.selectedBackground}
+              />
+            ) : (
+              ''
+            )}
           </>
         )}
-      </OutsideClickHandler>
-    </section>
+      </section>
+    </OutsideClickHandler>
   );
 }

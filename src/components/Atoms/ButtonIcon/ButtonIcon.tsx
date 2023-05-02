@@ -32,7 +32,9 @@ export function ButtonIcon({
 
   const handleMouseEnter = (e: MouseEvent<HTMLButtonElement>) => {
     const { target } = e;
-    updateTooltipCoords(target);
+
+    // @ts-ignore
+    updateTooltipCoords(target.closest('button'));
     setOn(true);
   };
 

@@ -5,6 +5,7 @@ import { IoImageOutline } from 'react-icons/io5';
 import { MdOutlineColorLens } from 'react-icons/md';
 import OutsideClickHandler from 'react-outside-click-handler';
 
+import { Button } from '@/components/Atoms/Button/Button';
 import { ButtonIcon } from '@/components/Atoms/ButtonIcon/ButtonIcon';
 import { TextArea } from '@/components/Atoms/TextArea/TextArea';
 import { BackgroundColorSelector } from '@/components/TakeANote/BackgroundColorSelector';
@@ -71,7 +72,7 @@ export function TakeANote() {
               />
             </form>
 
-            <div className='relative flex flex-col'>
+            <div className='relative flex h-max items-center justify-between'>
               <div className='flex gap-1'>
                 <ButtonIcon
                   icon={MdOutlineColorLens}
@@ -82,12 +83,17 @@ export function TakeANote() {
                 <ButtonIcon icon={BiArchiveIn} tooltip='Archive' />
                 <ButtonIcon icon={GoKebabVertical} tooltip='More' />
               </div>
+              <Button onClick={() => handleTakeANoteClicked(false)}>
+                <span>Close</span>
+              </Button>
             </div>
 
             {state.showColorSelector ? (
-              <BackgroundColorSelector
-                currentBackgroundColor={state.selectedBackground}
-              />
+              <OutsideClickHandler onOutsideClick={handleShowColorSelector}>
+                <BackgroundColorSelector
+                  currentBackgroundColor={state.selectedBackground}
+                />
+              </OutsideClickHandler>
             ) : (
               ''
             )}

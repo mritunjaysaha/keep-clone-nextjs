@@ -1,7 +1,6 @@
 import { BiArchiveIn } from 'react-icons/bi';
 import { BsPin, BsPinFill } from 'react-icons/bs';
 import { GoKebabVertical } from 'react-icons/go';
-import { IoImageOutline } from 'react-icons/io5';
 import { MdOutlineColorLens } from 'react-icons/md';
 import OutsideClickHandler from 'react-outside-click-handler';
 
@@ -9,6 +8,7 @@ import { Button } from '@/components/Atoms/Button/Button';
 import { ButtonIcon } from '@/components/Atoms/ButtonIcon/ButtonIcon';
 import { TextArea } from '@/components/Atoms/TextArea/TextArea';
 import { BackgroundColorSelector } from '@/components/TakeANote/BackgroundColorSelector';
+import { UploadImage } from '@/components/TakeANote/UploadImage';
 import { useTakeANote } from '@/hooks/useTakeANote';
 
 export function TakeANote() {
@@ -18,10 +18,11 @@ export function TakeANote() {
     register,
     handleSubmit,
     onSubmit,
-    handleTextAreaChange,
     handlePinClick,
+    handleTextAreaChange,
     handleTakeANoteClicked,
     handleShowColorSelector,
+    handleFileSelectorChange,
     handleSelectBackgroundColor,
   } = useTakeANote();
 
@@ -59,7 +60,7 @@ export function TakeANote() {
                 <ButtonIcon
                   icon={state.isPinned ? BsPinFill : BsPin}
                   size={20}
-                  tooltip='Pin Note'
+                  tooltip={state.isPinned ? 'Unpin Note' : 'Pin Note'}
                   onClick={handlePinClick}
                 ></ButtonIcon>
               </div>{' '}
@@ -79,7 +80,8 @@ export function TakeANote() {
                   onClick={handleShowColorSelector}
                   tooltip='Background Options'
                 />
-                <ButtonIcon icon={IoImageOutline} tooltip='Add Image' />
+
+                <UploadImage onChange={handleFileSelectorChange} />
                 <ButtonIcon icon={BiArchiveIn} tooltip='Archive' />
                 <ButtonIcon icon={GoKebabVertical} tooltip='More' />
               </div>

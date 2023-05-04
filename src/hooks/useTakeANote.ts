@@ -127,16 +127,21 @@ export const useTakeANote = () => {
     }
   };
 
+  const handleFileSelectorChange = (e: ChangeEvent<HTMLInputElement>) => {
+    console.log(e.target.files);
+  };
+
   return {
     ref,
     state,
     register,
     onSubmit,
     handleSubmit,
-    handleTextAreaChange,
     handlePinClick,
+    handleTextAreaChange,
     handleTakeANoteClicked,
     handleShowColorSelector,
+    handleFileSelectorChange,
     handleSelectBackgroundColor,
   };
 };

@@ -6,9 +6,11 @@ import { ButtonIcon } from '@/components/Atoms/ButtonIcon/ButtonIcon';
 
 type UploadImageType = {
   onChange: ChangeEventHandler<HTMLInputElement>;
+
+  multiple: boolean;
 };
 
-export const UploadImage = ({ onChange }: UploadImageType) => {
+export const UploadInput = ({ onChange, ...rest }: UploadImageType) => {
   const inputRef = useRef(null);
 
   const handleButtonClick = () => {
@@ -26,6 +28,7 @@ export const UploadImage = ({ onChange }: UploadImageType) => {
         accept='image/*'
         className='hidden'
         onChange={onChange}
+        {...rest}
       />
       <ButtonIcon
         icon={IoImageOutline}

@@ -8,7 +8,7 @@ import { Button } from '@/components/Atoms/Button/Button';
 import { ButtonIcon } from '@/components/Atoms/ButtonIcon/ButtonIcon';
 import { TextArea } from '@/components/Atoms/TextArea/TextArea';
 import { BackgroundColorSelector } from '@/components/TakeANote/BackgroundColorSelector';
-import { UploadImage } from '@/components/TakeANote/UploadImage';
+import { UploadInput } from '@/components/TakeANote/UploadInput';
 import { useTakeANote } from '@/hooks/useTakeANote';
 
 export function TakeANote() {
@@ -81,7 +81,7 @@ export function TakeANote() {
                   tooltip='Background Options'
                 />
 
-                <UploadImage onChange={handleFileSelectorChange} />
+                <UploadInput onChange={handleFileSelectorChange} multiple />
                 <ButtonIcon icon={BiArchiveIn} tooltip='Archive' />
                 <ButtonIcon icon={GoKebabVertical} tooltip='More' />
               </div>

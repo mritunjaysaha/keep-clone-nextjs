@@ -8,6 +8,7 @@ type ButtonIconProps = {
   size?: number;
   onClick?: MouseEventHandler<HTMLButtonElement>;
   tooltip?: string;
+  disabled?: boolean;
 };
 
 const btnRef = createRef();
@@ -45,7 +46,7 @@ export function ButtonIcon({
   return (
     <>
       <button
-        className='m-2 flex items-center rounded-full p-2 hover:bg-gray-100 dark:hover:bg-gray-700'
+        className='m-2 flex items-center rounded-full p-2 hover:bg-gray-100 disabled:opacity-50'
         onMouseEnter={handleMouseEnter}
         onMouseLeave={handleMouseLeave}
         {...rest}

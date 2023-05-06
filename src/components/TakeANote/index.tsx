@@ -1,8 +1,7 @@
 import { useEffect } from 'react';
-import { BiArchiveIn } from 'react-icons/bi';
+import { BiArchiveIn, BiRedo, BiUndo } from 'react-icons/bi';
 import { BsPin, BsPinFill } from 'react-icons/bs';
-import { GoKebabVertical } from 'react-icons/go';
-import { MdOutlineColorLens } from 'react-icons/md';
+import { MdOutlineColorLens, MdOutlineNewLabel } from 'react-icons/md';
 import OutsideClickHandler from 'react-outside-click-handler';
 
 import { Button } from '@/components/Atoms/Button/Button';
@@ -87,7 +86,9 @@ export function TakeANote() {
 
                 <UploadInput onChange={handleFileSelectorChange} multiple />
                 <ButtonIcon icon={BiArchiveIn} tooltip='Archive' />
-                <ButtonIcon icon={GoKebabVertical} tooltip='More' />
+                <ButtonIcon icon={MdOutlineNewLabel} tooltip='Add label' />
+                <ButtonIcon disabled={true} icon={BiUndo} tooltip='Undo' />
+                <ButtonIcon disabled={true} icon={BiRedo} tooltip='Redo' />
               </div>
               <Button onClick={() => handleTakeANoteClicked(false)}>
                 <span>Close</span>

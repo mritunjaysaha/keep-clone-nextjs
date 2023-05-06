@@ -6,7 +6,6 @@ import OutsideClickHandler from 'react-outside-click-handler';
 
 import { Button } from '@/components/Atoms/Button/Button';
 import { ButtonIcon } from '@/components/Atoms/ButtonIcon/ButtonIcon';
-import { TextArea } from '@/components/Atoms/TextArea/TextArea';
 import { BackgroundColorSelector } from '@/components/TakeANote/BackgroundColorSelector';
 import { UploadInput } from '@/components/TakeANote/UploadInput';
 import { useTakeANote } from '@/hooks/useTakeANote';
@@ -54,11 +53,12 @@ export function TakeANote() {
               onSubmit={handleSubmit(onSubmit)}
             >
               <div className='flex items-baseline'>
-                <TextArea
+                <textarea
                   {...register('title', {
                     onChange: handleTextAreaChange,
                   })}
                   placeholder='Title'
+                  className='textarea'
                 />
                 <ButtonIcon
                   icon={state.isPinned ? BsPinFill : BsPin}
@@ -67,12 +67,13 @@ export function TakeANote() {
                   onClick={handlePinClick}
                 ></ButtonIcon>
               </div>{' '}
-              <TextArea
+              <textarea
                 {...register('body', {
                   onChange: handleTextAreaChange,
                 })}
                 placeholder='Take a note...'
                 rows={2}
+                className='textarea'
               />
             </form>
 

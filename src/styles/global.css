@@ -47,3 +47,7 @@ a:hover {
 .box-shadow-editor {
   box-shadow: 0px 0px 16px 7px rgba(0, 0, 0, 0.1);
 }
+
+.textarea {
+  @apply max-h-96 w-full resize-none overflow-auto rounded bg-inherit py-2 px-3  leading-tight text-gray-900 focus:outline-none dark:text-gray-200;
+}

@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import { BiArchiveIn } from 'react-icons/bi';
 import { BsPin, BsPinFill } from 'react-icons/bs';
 import { GoKebabVertical } from 'react-icons/go';
@@ -26,6 +27,9 @@ export function TakeANote() {
     handleSelectBackgroundColor,
   } = useTakeANote();
 
+  useEffect(() => {
+    console.log('[TakeANote]', state);
+  }, [state]);
   return (
     <OutsideClickHandler onOutsideClick={() => handleTakeANoteClicked(false)}>
       <section

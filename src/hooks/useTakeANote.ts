@@ -2,8 +2,10 @@ import type { ChangeEvent, MouseEvent } from 'react';
 import { useReducer, useRef } from 'react';
 import type { SubmitHandler } from 'react-hook-form';
 import { useForm } from 'react-hook-form';
+import { v4 as uuidV4 } from 'uuid';
 
 import { editorTheme } from '@/constants/editorTheme';
+import type { ImageType } from '@/types/common/imageType';
 import type { Todo } from '@/types/todos/Todo';
 import { debounce } from '@/utils/debounce';
 
@@ -32,7 +34,7 @@ type TakeANoteAction =
   | { type: typeof TAKE_A_NOTE_TYPES.SET_SELECTED_BACKGROUND; payload: string }
   | {
       type: typeof TAKE_A_NOTE_TYPES.SET_SELECTED_FILES;
-      payload: string[];
+      payload: ImageType[];
     };
 
 const initialState: TakeANoteState = {
@@ -60,7 +62,7 @@ const takeANoteReducer = (
       return {
         ...state,
         // @ts-ignore
-        imagePreviews: [...action.payload],
+        imagePreviews: [...state.imagePreviews, ...action.payload],
       };
     default:
       return state;
@@ -87,6 +89,7 @@ export const useTakeANote = () => {
       type: TAKE_A_NOTE_TYPES.SET_SELECTED_BACKGROUND,
       payload: 'inherit',
     });
+    dispatch({ type: TAKE_A_NOTE_TYPES.SET_SELECTED_FILES, payload: [] });
   };
 
   const handleTextAreaChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
@@ -146,26 +149,28 @@ export const useTakeANote = () => {
     const { files } = e.target;
     if (!files) return;
 
-    const newSelectedImages: any = [...state.imagePreviews];
+    const newSelectedImages: ImageType[] = [];
 
     for (let i = 0, len = files?.length ?? 0; i < len; i += 1) {
       const file = files[i];
+
+      if (!file) return;
+
       const reader = new FileReader();
-      reader.onload = (event) => {
-        const image = new Image();
-        newSelectedImages.push({
-          file,
-          preview: event.target?.result as string,
-          width: image.width,
-          height: image.height,
-        });
-        image.src = event.target?.result as string;
-      };
-      console.log('[useTakeANote][handleFileSelectorChange]', {
-        newSelectedImages,
-      });
-      // @ts-ignore
+
       reader.readAsDataURL(file);
+
+      const image = new Image();
+      reader.onload = (event) => {
+        image.src = event.target?.result as string;
+
+        newSelectedImages.push({ id: uuidV4(), src: image.src });
+
+        dispatch({
+          type: TAKE_A_NOTE_TYPES.SET_SELECTED_FILES,
+          payload: newSelectedImages,
+        });
+      };
     }
   };
 

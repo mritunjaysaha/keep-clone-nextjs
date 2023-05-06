@@ -14,24 +14,33 @@ type TakeANoteState = {
   showColorSelector: boolean;
   isTakeANoteClicked: boolean;
   selectedBackground: string;
+  imagePreviews: string[];
 };
-type TakeANoteAction =
-  | { type: typeof TAKE_A_NOTE_TYPES.SET_PINNED; payload: boolean }
-  | { type: typeof TAKE_A_NOTE_TYPES.SET_SHOW_COLOR; payload: boolean }
-  | { type: typeof TAKE_A_NOTE_TYPES.SET_TAKE_NOTE_CLICKED; payload: boolean }
-  | { type: typeof TAKE_A_NOTE_TYPES.SET_SELECTED_BACKGROUND; payload: string };
+
 const TAKE_A_NOTE_TYPES = {
   SET_PINNED: 'SET_PINNED',
   SET_SHOW_COLOR: 'SET_SHOW_COLOR',
   SET_TAKE_NOTE_CLICKED: 'SET_TAKE_NOTE_CLICKED',
   SET_SELECTED_BACKGROUND: 'SET_SELECTED_BACKGROUND',
+  SET_SELECTED_FILES: 'SET_SELECTED_FILES',
 };
+
+type TakeANoteAction =
+  | { type: typeof TAKE_A_NOTE_TYPES.SET_PINNED; payload: boolean }
+  | { type: typeof TAKE_A_NOTE_TYPES.SET_SHOW_COLOR; payload: boolean }
+  | { type: typeof TAKE_A_NOTE_TYPES.SET_TAKE_NOTE_CLICKED; payload: boolean }
+  | { type: typeof TAKE_A_NOTE_TYPES.SET_SELECTED_BACKGROUND; payload: string }
+  | {
+      type: typeof TAKE_A_NOTE_TYPES.SET_SELECTED_FILES;
+      payload: string[];
+    };
 
 const initialState: TakeANoteState = {
   isPinned: false,
   showColorSelector: false,
   isTakeANoteClicked: false,
   selectedBackground: 'inherit',
+  imagePreviews: [],
 };
 
 const takeANoteReducer = (
@@ -47,6 +56,12 @@ const takeANoteReducer = (
       return { ...state, isTakeANoteClicked: Boolean(action.payload) };
     case TAKE_A_NOTE_TYPES.SET_SELECTED_BACKGROUND:
       return { ...state, selectedBackground: String(action.payload) };
+    case TAKE_A_NOTE_TYPES.SET_SELECTED_FILES:
+      return {
+        ...state,
+        // @ts-ignore
+        imagePreviews: [...action.payload],
+      };
     default:
       return state;
   }
@@ -128,7 +143,30 @@ export const useTakeANote = () => {
   };
 
   const handleFileSelectorChange = (e: ChangeEvent<HTMLInputElement>) => {
-    console.log(e.target.files);
+    const { files } = e.target;
+    if (!files) return;
+
+    const newSelectedImages: any = [...state.imagePreviews];
+
+    for (let i = 0, len = files?.length ?? 0; i < len; i += 1) {
+      const file = files[i];
+      const reader = new FileReader();
+      reader.onload = (event) => {
+        const image = new Image();
+        newSelectedImages.push({
+          file,
+          preview: event.target?.result as string,
+          width: image.width,
+          height: image.height,
+        });
+        image.src = event.target?.result as string;
+      };
+      console.log('[useTakeANote][handleFileSelectorChange]', {
+        newSelectedImages,
+      });
+      // @ts-ignore
+      reader.readAsDataURL(file);
+    }
   };
 
   return {

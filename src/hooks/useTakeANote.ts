@@ -1,13 +1,12 @@
 import type { ChangeEvent, MouseEvent } from 'react';
-import { useReducer, useRef, useState } from 'react';
+import { useReducer, useRef } from 'react';
 import type { SubmitHandler } from 'react-hook-form';
 import { useForm } from 'react-hook-form';
 import { v4 as uuidV4 } from 'uuid';
 
 import { editorTheme } from '@/constants/editorTheme';
 import { useAppSelector } from '@/hooks/redux';
-import { createTodo } from '@/request/httpCalls/todo/createTodo';
-import { updateTodo } from '@/request/httpCalls/todo/updateTodo';
+import { createOrUpdateTodo } from '@/request/httpCalls/todo/createOrUpdateTodo';
 import type { ImageType } from '@/types/common/imageType';
 import type { Todo } from '@/types/todos/Todo';
 import { debounce } from '@/utils/debounce';
@@ -77,44 +76,18 @@ export const useTakeANote = () => {
   const { register, handleSubmit } = useForm<TodoFormData>();
   const [state, dispatch] = useReducer(takeANoteReducer, initialState);
 
-  const [todoId, setTodoId] = useState('');
-
   const { email } = useAppSelector((reduxState) => reduxState.user);
 
   const ref = useRef(null);
+  const todoId = uuidV4();
 
   const onSubmit: SubmitHandler<TodoFormData> = async (data) => {
-    console.log(data);
+    const todoData: Todo = {
+      todoTitle: data.todoTitle as string,
+      todoBody: data.todoBody,
+    };
 
-    if (!todoId) {
-      const currTodoId = uuidV4();
-      const todoData: Todo = {
-        todoId: currTodoId,
-        todoTitle: data.todoTitle as string,
-        todoBody: data.todoBody,
-        lastEdited: Date.now().toString(),
-      };
-
-      const res = await createTodo(email, todoData);
-
-      if (!res?.success) {
-        console.log('[onSubmit] ', res);
-      } else {
-        setTodoId(currTodoId);
-      }
-    } else {
-      const todoData = {
-        todoTitle: data.todoTitle as string,
-        todoBody: data.todoBody,
-        lastEdited: Date.now().toString(),
-      };
-
-      const res = await updateTodo(email, todoId, todoData);
-
-      if (!res?.success) {
-        console.log('[onSubmit] ', res);
-      }
-    }
+    await createOrUpdateTodo(email, todoId, todoData);
   };
 
   const debounceSubmit = debounce(handleSubmit(onSubmit), 500);

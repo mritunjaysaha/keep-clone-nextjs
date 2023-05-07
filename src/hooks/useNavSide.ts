@@ -18,7 +18,9 @@ export function useNavSide(): NavSideReturn {
   const dispatch = useAppDispatch();
   const router = useRouter();
 
-  const { isNavSideClose, isMenuClicked } = useAppSelector((state) => state.global);
+  const { isNavSideClose, isMenuClicked } = useAppSelector(
+    (state) => state.global,
+  );
 
   function handleMouseEnter() {
     dispatch(setNavSideClose(false));

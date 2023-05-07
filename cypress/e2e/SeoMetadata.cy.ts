@@ -7,7 +7,9 @@ describe('Seo metadata', () => {
       cy.title().should('not.be.empty');
 
       // The Index page should also contain a meta description for SEO
-      cy.get('head meta[name="description"]').invoke('attr', 'content').should('not.be.empty');
+      cy.get('head meta[name="description"]')
+        .invoke('attr', 'content')
+        .should('not.be.empty');
     });
 
     it('should render SEO metadata on About page', () => {
@@ -17,7 +19,9 @@ describe('Seo metadata', () => {
       cy.title().should('not.be.empty');
 
       // The About page should also contain a meta description for SEO
-      cy.get('head meta[name="description"]').invoke('attr', 'content').should('not.be.empty');
+      cy.get('head meta[name="description"]')
+        .invoke('attr', 'content')
+        .should('not.be.empty');
     });
   });
 });

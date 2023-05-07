@@ -54,7 +54,7 @@ export function TakeANote() {
             >
               <div className='flex items-baseline'>
                 <textarea
-                  {...register('title', {
+                  {...register('todoTitle', {
                     onChange: handleTextAreaChange,
                   })}
                   placeholder='Title'
@@ -68,7 +68,7 @@ export function TakeANote() {
                 ></ButtonIcon>
               </div>{' '}
               <textarea
-                {...register('body', {
+                {...register('todoBody', {
                   onChange: handleTextAreaChange,
                 })}
                 placeholder='Take a note...'

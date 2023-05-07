@@ -1,8 +1,10 @@
 import '../styles/global.css';
+import 'react-toastify/dist/ReactToastify.css';
 
 import type { AppProps } from 'next/app';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import { Provider } from 'react-redux';
+import { ToastContainer } from 'react-toastify';
 import { PersistGate } from 'redux-persist/integration/react';
 
 import { Layouts } from '@/layouts/Layouts';
@@ -17,6 +19,7 @@ const MyApp = ({ Component, pageProps }: AppProps) => {
         <QueryClientProvider client={queryClient}>
           <Layouts>
             <Component {...pageProps} />
+            <ToastContainer position='bottom-left' />
           </Layouts>
         </QueryClientProvider>
       </PersistGate>

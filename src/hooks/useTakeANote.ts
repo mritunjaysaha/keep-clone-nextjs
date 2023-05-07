@@ -6,8 +6,8 @@ import { v4 as uuidV4 } from 'uuid';
 
 import { editorTheme } from '@/constants/editorTheme';
 import { useAppSelector } from '@/hooks/redux';
-import { postTodo } from '@/request/httpCalls/todo/postTodo';
-import { putTodo } from '@/request/httpCalls/todo/putTodo';
+import { createTodo } from '@/request/httpCalls/todo/createTodo';
+import { updateTodo } from '@/request/httpCalls/todo/updateTodo';
 import type { ImageType } from '@/types/common/imageType';
 import type { Todo } from '@/types/todos/Todo';
 import { debounce } from '@/utils/debounce';
@@ -95,7 +95,7 @@ export const useTakeANote = () => {
         lastEdited: Date.now().toString(),
       };
 
-      const res = await postTodo(email, todoData);
+      const res = await createTodo(email, todoData);
 
       if (!res?.success) {
         console.log('[onSubmit] ', res);
@@ -109,7 +109,7 @@ export const useTakeANote = () => {
         lastEdited: Date.now().toString(),
       };
 
-      const res = await putTodo(email, todoId, todoData);
+      const res = await updateTodo(email, todoId, todoData);
 
       if (!res?.success) {
         console.log('[onSubmit] ', res);

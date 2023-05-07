@@ -1,12 +1,12 @@
 import { axiosInstance } from '@/request/config/axios';
 import type { Todo } from '@/types/todos/Todo';
 
-export const putTodo = async (
+export const updateTodo = async (
   email: string,
   todoId: string,
   data: Omit<Todo, 'todoId'>,
 ) => {
-  const res = await axiosInstance.put(`/todos/${email}/${todoId}`, data);
+  const res = await axiosInstance.patch(`/todos/${email}/${todoId}`, data);
 
   return res.data;
 };

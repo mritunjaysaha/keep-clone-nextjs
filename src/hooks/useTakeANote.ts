@@ -1,5 +1,5 @@
 import type { ChangeEvent, MouseEvent } from 'react';
-import { useReducer, useRef } from 'react';
+import { useMemo, useReducer, useRef } from 'react';
 import type { SubmitHandler } from 'react-hook-form';
 import { useForm } from 'react-hook-form';
 import { v4 as uuidV4 } from 'uuid';
@@ -79,7 +79,7 @@ export const useTakeANote = () => {
   const { email } = useAppSelector((reduxState) => reduxState.user);
 
   const ref = useRef(null);
-  const todoId = uuidV4();
+  const todoId = useMemo(() => uuidV4(), []);
 
   const onSubmit: SubmitHandler<TodoFormData> = async (data) => {
     const todoData: Todo = {
@@ -109,12 +109,14 @@ export const useTakeANote = () => {
     e.target.style.height = `${e.target.scrollHeight}px`;
   };
 
-  const handlePinClick = () => {
+  const handlePinClick = async () => {
     dispatch({
       type: TAKE_A_NOTE_TYPES.SET_PINNED,
       // @ts-ignore
       payload: !state.isPinned,
     });
+
+    await createOrUpdateTodo(email, todoId, { isPinned: !state.isPinned });
   };
 
   const handleTakeANoteClicked = (val: boolean) => {

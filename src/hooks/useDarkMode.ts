@@ -5,7 +5,10 @@ import { useSafeLocalStorage } from '@/hooks/useSafeLocalStorage';
 
 export const useDarkMode = () => {
   const prefersDarkMode = usePrefersDarkMode();
-  const [isEnabled, setIsEnabled] = useSafeLocalStorage('darkMode', prefersDarkMode);
+  const [isEnabled, setIsEnabled] = useSafeLocalStorage(
+    'darkMode',
+    prefersDarkMode,
+  );
 
   const enabled = isEnabled === undefined ? prefersDarkMode : isEnabled;
 

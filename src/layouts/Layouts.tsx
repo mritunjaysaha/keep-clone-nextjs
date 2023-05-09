@@ -9,7 +9,7 @@ import { useAppSelector } from '@/hooks/redux';
 import { setAuthToken } from '@/utils/setAuthToken';
 
 interface ILayouts {
-  children: JSX.Element;
+  children: JSX.Element[];
 }
 
 export function Layouts({ children }: ILayouts) {

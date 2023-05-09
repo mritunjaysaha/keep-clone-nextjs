@@ -23,11 +23,17 @@ export const BackgroundColorSelector = ({ currentBackgroundColor }: Props) => {
       </ButtonBGColor>
       {Object.keys(buttonColor).map((color) => {
         const isCurrentColor = color === currentBackgroundColor;
+
+        console.log('[BackgroundColorSelector]', {
+          color,
+          currentBackgroundColor,
+          isCurrentColor,
+        });
         return (
           <ButtonBGColor
             key={color}
             // @ts-ignore
-            color={buttonColor[color]}
+            color={color}
             isCurrentColor={isCurrentColor}
             tooltip={color}
           />

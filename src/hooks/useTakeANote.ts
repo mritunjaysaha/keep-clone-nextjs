@@ -1,15 +1,17 @@
 import type { ChangeEvent, MouseEvent } from 'react';
-import { useReducer, useRef } from 'react';
+import { useMemo, useReducer, useRef } from 'react';
 import type { SubmitHandler } from 'react-hook-form';
 import { useForm } from 'react-hook-form';
 import { v4 as uuidV4 } from 'uuid';
 
 import { editorTheme } from '@/constants/editorTheme';
+import { useAppSelector } from '@/hooks/redux';
+import { createOrUpdateTodo } from '@/request/httpCalls/todo/createOrUpdateTodo';
 import type { ImageType } from '@/types/common/imageType';
 import type { Todo } from '@/types/todos/Todo';
 import { debounce } from '@/utils/debounce';
 
-type TodoFormData = Pick<Todo, 'title' | 'body'>;
+type TodoFormData = Pick<Todo, 'todoTitle' | 'todoBody'>;
 
 type TakeANoteState = {
   isPinned: boolean;
@@ -71,25 +73,42 @@ const takeANoteReducer = (
 
 const { backgroundColor } = editorTheme;
 export const useTakeANote = () => {
-  const { register, handleSubmit } = useForm<TodoFormData>();
+  const { register, handleSubmit, reset } = useForm<TodoFormData>();
   const [state, dispatch] = useReducer(takeANoteReducer, initialState);
 
-  const ref = useRef(null);
+  const { email } = useAppSelector((reduxState) => reduxState.user);
 
-  const onSubmit: SubmitHandler<TodoFormData> = (data) => {
-    console.log(data);
+  const ref = useRef(null);
+  const todoId = useMemo(() => uuidV4(), [state.isTakeANoteClicked]);
+
+  // @ts-ignore
+  const currentBackgroundColor = backgroundColor[state.selectedBackground];
+
+  const updateTodo = async (data: Todo) => {
+    await createOrUpdateTodo(email, todoId, data);
+  };
+
+  const onSubmit: SubmitHandler<TodoFormData> = async (data) => {
+    const todoData: Todo = {
+      todoTitle: data.todoTitle as string,
+      todoBody: data.todoBody,
+    };
+
+    await updateTodo(todoData);
   };
 
   const debounceSubmit = debounce(handleSubmit(onSubmit), 500);
 
   const resetStates = () => {
-    dispatch({ type: TAKE_A_NOTE_TYPES.SET_PINNED, payload: '' });
+    dispatch({ type: TAKE_A_NOTE_TYPES.SET_PINNED, payload: false });
     dispatch({ type: TAKE_A_NOTE_TYPES.SET_SHOW_COLOR, payload: '' });
     dispatch({
       type: TAKE_A_NOTE_TYPES.SET_SELECTED_BACKGROUND,
       payload: 'inherit',
     });
     dispatch({ type: TAKE_A_NOTE_TYPES.SET_SELECTED_FILES, payload: [] });
+
+    reset();
   };
 
   const handleTextAreaChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
@@ -99,12 +118,18 @@ export const useTakeANote = () => {
     e.target.style.height = `${e.target.scrollHeight}px`;
   };
 
-  const handlePinClick = () => {
+  const handlePinClick = async (e: MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+
     dispatch({
       type: TAKE_A_NOTE_TYPES.SET_PINNED,
       // @ts-ignore
       payload: !state.isPinned,
     });
+
+    // await createOrUpdateTodo(email, todoId, { isPinned: !state.isPinned });
+
+    await updateTodo({ isPinned: !state.isPinned });
   };
 
   const handleTakeANoteClicked = (val: boolean) => {
@@ -122,26 +147,27 @@ export const useTakeANote = () => {
     });
   };
 
-  const handleSelectBackgroundColor = (e: MouseEvent<HTMLDivElement>) => {
+  const handleSelectBackgroundColor = async (e: MouseEvent<HTMLDivElement>) => {
     e.stopPropagation();
     if (!ref.current) return;
     // @ts-ignore
     const datasetBg: string = e.target.closest('[data-bg]')?.dataset?.bg;
 
     if (datasetBg) {
-      if (datasetBg !== 'inherit') {
+      if (datasetBg === 'inherit') {
         dispatch({
           type: TAKE_A_NOTE_TYPES.SET_SELECTED_BACKGROUND,
-          payload: datasetBg,
+          payload: 'inherit',
         });
       } else {
         dispatch({
           type: TAKE_A_NOTE_TYPES.SET_SELECTED_BACKGROUND,
 
           // @ts-ignore
-          payload: backgroundColor[datasetBg],
+          payload: datasetBg,
         });
       }
+      await updateTodo({ theme: datasetBg });
     }
   };
 
@@ -186,5 +212,6 @@ export const useTakeANote = () => {
     handleShowColorSelector,
     handleFileSelectorChange,
     handleSelectBackgroundColor,
+    currentBackgroundColor,
   };
 };

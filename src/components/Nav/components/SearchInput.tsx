@@ -39,7 +39,10 @@ export function SearchInput({ placeholder }: SearchInputProps) {
       </form>
 
       <button className='ml-2' onClick={handleCloseClick}>
-        <IoCloseOutline size={24} className='text-16 cursor-pointer text-white' />
+        <IoCloseOutline
+          size={24}
+          className='text-16 cursor-pointer text-white'
+        />
       </button>
     </div>
   );

@@ -2,6 +2,7 @@ import type { MouseEvent } from 'react';
 import { useState } from 'react';
 
 import { Tooltip } from '@/components/Tooltip';
+import { editorTheme } from '@/constants/editorTheme';
 
 type ButtonBgColorProps = {
   color: string;
@@ -9,6 +10,8 @@ type ButtonBgColorProps = {
   children?: JSX.Element;
   tooltip?: string;
 };
+
+const { buttonColor } = editorTheme;
 
 export const ButtonBGColor = ({
   color,
@@ -19,6 +22,9 @@ export const ButtonBGColor = ({
   const activeButtonClass = isCurrentColor
     ? 'border-purple-500'
     : 'border-transparent';
+
+  // @ts-ignore
+  const currentButtonColor = buttonColor[color] as string;
 
   const [isOn, setOn] = useState<boolean>(false);
   const [coords, setCoords] = useState({});
@@ -48,7 +54,7 @@ export const ButtonBGColor = ({
         key={color}
         data-bg={color}
         // eslint-disable-next-line
-        className={`flex justify-center items-center h-7 w-7 rounded-full ${color} border-2 hover:border-black ${activeButtonClass}`}
+        className={`flex justify-center items-center h-7 w-7 rounded-full ${currentButtonColor} border-2 hover:border-black ${activeButtonClass}`}
         onMouseEnter={handleMouseEnter}
         onMouseLeave={handleMouseLeave}
       >

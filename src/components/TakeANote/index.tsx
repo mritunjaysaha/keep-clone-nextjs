@@ -23,6 +23,7 @@ export function TakeANote() {
     handleShowColorSelector,
     handleFileSelectorChange,
     handleSelectBackgroundColor,
+    currentBackgroundColor,
   } = useTakeANote();
 
   useEffect(() => {
@@ -33,7 +34,7 @@ export function TakeANote() {
       <section
         ref={ref}
         className={`box-shadow-editor relative mx-auto my-8 flex min-h-0
-       w-50vw flex-col justify-center rounded-md ${state.selectedBackground} p-2`}
+       w-50vw flex-col justify-center rounded-md ${currentBackgroundColor} p-2`}
         onClick={handleSelectBackgroundColor}
       >
         {!state.isTakeANoteClicked && (

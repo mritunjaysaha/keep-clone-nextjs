@@ -73,13 +73,20 @@ const takeANoteReducer = (
 
 const { backgroundColor } = editorTheme;
 export const useTakeANote = () => {
-  const { register, handleSubmit } = useForm<TodoFormData>();
+  const { register, handleSubmit, reset } = useForm<TodoFormData>();
   const [state, dispatch] = useReducer(takeANoteReducer, initialState);
 
   const { email } = useAppSelector((reduxState) => reduxState.user);
 
   const ref = useRef(null);
-  const todoId = useMemo(() => uuidV4(), []);
+  const todoId = useMemo(() => uuidV4(), [state.isTakeANoteClicked]);
+
+  // @ts-ignore
+  const currentBackgroundColor = backgroundColor[state.selectedBackground];
+
+  const updateTodo = async (data: Todo) => {
+    await createOrUpdateTodo(email, todoId, data);
+  };
 
   const onSubmit: SubmitHandler<TodoFormData> = async (data) => {
     const todoData: Todo = {
@@ -87,19 +94,21 @@ export const useTakeANote = () => {
       todoBody: data.todoBody,
     };
 
-    await createOrUpdateTodo(email, todoId, todoData);
+    await updateTodo(todoData);
   };
 
   const debounceSubmit = debounce(handleSubmit(onSubmit), 500);
 
   const resetStates = () => {
-    dispatch({ type: TAKE_A_NOTE_TYPES.SET_PINNED, payload: '' });
+    dispatch({ type: TAKE_A_NOTE_TYPES.SET_PINNED, payload: false });
     dispatch({ type: TAKE_A_NOTE_TYPES.SET_SHOW_COLOR, payload: '' });
     dispatch({
       type: TAKE_A_NOTE_TYPES.SET_SELECTED_BACKGROUND,
       payload: 'inherit',
     });
     dispatch({ type: TAKE_A_NOTE_TYPES.SET_SELECTED_FILES, payload: [] });
+
+    reset();
   };
 
   const handleTextAreaChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
@@ -109,14 +118,18 @@ export const useTakeANote = () => {
     e.target.style.height = `${e.target.scrollHeight}px`;
   };
 
-  const handlePinClick = async () => {
+  const handlePinClick = async (e: MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+
     dispatch({
       type: TAKE_A_NOTE_TYPES.SET_PINNED,
       // @ts-ignore
       payload: !state.isPinned,
     });
 
-    await createOrUpdateTodo(email, todoId, { isPinned: !state.isPinned });
+    // await createOrUpdateTodo(email, todoId, { isPinned: !state.isPinned });
+
+    await updateTodo({ isPinned: !state.isPinned });
   };
 
   const handleTakeANoteClicked = (val: boolean) => {
@@ -134,26 +147,27 @@ export const useTakeANote = () => {
     });
   };
 
-  const handleSelectBackgroundColor = (e: MouseEvent<HTMLDivElement>) => {
+  const handleSelectBackgroundColor = async (e: MouseEvent<HTMLDivElement>) => {
     e.stopPropagation();
     if (!ref.current) return;
     // @ts-ignore
     const datasetBg: string = e.target.closest('[data-bg]')?.dataset?.bg;
 
     if (datasetBg) {
-      if (datasetBg !== 'inherit') {
+      if (datasetBg === 'inherit') {
         dispatch({
           type: TAKE_A_NOTE_TYPES.SET_SELECTED_BACKGROUND,
-          payload: datasetBg,
+          payload: 'inherit',
         });
       } else {
         dispatch({
           type: TAKE_A_NOTE_TYPES.SET_SELECTED_BACKGROUND,
 
           // @ts-ignore
-          payload: backgroundColor[datasetBg],
+          payload: datasetBg,
         });
       }
+      await updateTodo({ theme: datasetBg });
     }
   };
 
@@ -198,5 +212,6 @@ export const useTakeANote = () => {
     handleShowColorSelector,
     handleFileSelectorChange,
     handleSelectBackgroundColor,
+    currentBackgroundColor,
   };
 };

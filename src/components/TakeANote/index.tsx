@@ -1,4 +1,3 @@
-import { useEffect } from 'react';
 import { BiArchiveIn, BiRedo, BiUndo } from 'react-icons/bi';
 import { BsPin, BsPinFill } from 'react-icons/bs';
 import { MdOutlineColorLens, MdOutlineNewLabel } from 'react-icons/md';
@@ -7,7 +6,6 @@ import OutsideClickHandler from 'react-outside-click-handler';
 import { Button } from '@/components/Atoms/Button/Button';
 import { ButtonIcon } from '@/components/Atoms/ButtonIcon/ButtonIcon';
 import { BackgroundColorSelector } from '@/components/TakeANote/BackgroundColorSelector';
-import { UploadInput } from '@/components/TakeANote/UploadInput';
 import { useTakeANote } from '@/hooks/useTakeANote';
 
 export function TakeANote() {
@@ -21,14 +19,11 @@ export function TakeANote() {
     handleTextAreaChange,
     handleTakeANoteClicked,
     handleShowColorSelector,
-    handleFileSelectorChange,
+    // handleFileSelectorChange,
     handleSelectBackgroundColor,
     currentBackgroundColor,
   } = useTakeANote();
 
-  useEffect(() => {
-    console.log('[TakeANote]', state);
-  }, [state]);
   return (
     <OutsideClickHandler onOutsideClick={() => handleTakeANoteClicked(false)}>
       <section
@@ -86,7 +81,7 @@ export function TakeANote() {
                   tooltip='Background Options'
                 />
 
-                <UploadInput onChange={handleFileSelectorChange} multiple />
+                {/* <UploadInput onChange={handleFileSelectorChange} multiple /> */}
                 <ButtonIcon icon={BiArchiveIn} tooltip='Archive' />
                 <ButtonIcon icon={MdOutlineNewLabel} tooltip='Add label' />
                 <ButtonIcon disabled={true} icon={BiUndo} tooltip='Undo' />

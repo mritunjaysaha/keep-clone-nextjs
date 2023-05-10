@@ -29,15 +29,14 @@ const TAKE_A_NOTE_TYPES = {
   SET_SELECTED_FILES: 'SET_SELECTED_FILES',
 };
 
-type TakeANoteAction =
-  | { type: typeof TAKE_A_NOTE_TYPES.SET_PINNED; payload: boolean }
-  | { type: typeof TAKE_A_NOTE_TYPES.SET_SHOW_COLOR; payload: boolean }
-  | { type: typeof TAKE_A_NOTE_TYPES.SET_TAKE_NOTE_CLICKED; payload: boolean }
-  | { type: typeof TAKE_A_NOTE_TYPES.SET_SELECTED_BACKGROUND; payload: string }
-  | {
-      type: typeof TAKE_A_NOTE_TYPES.SET_SELECTED_FILES;
-      payload: ImageType[];
-    };
+type TakeANoteAction = {
+  type:
+    | typeof TAKE_A_NOTE_TYPES.SET_PINNED
+    | typeof TAKE_A_NOTE_TYPES.SET_SHOW_COLOR
+    | typeof TAKE_A_NOTE_TYPES.SET_TAKE_NOTE_CLICKED
+    | typeof TAKE_A_NOTE_TYPES.SET_SELECTED_BACKGROUND;
+  payload: boolean | string;
+};
 
 const initialState: TakeANoteState = {
   isPinned: false,
@@ -60,12 +59,12 @@ const takeANoteReducer = (
       return { ...state, isTakeANoteClicked: Boolean(action.payload) };
     case TAKE_A_NOTE_TYPES.SET_SELECTED_BACKGROUND:
       return { ...state, selectedBackground: String(action.payload) };
-    case TAKE_A_NOTE_TYPES.SET_SELECTED_FILES:
-      return {
-        ...state,
-        // @ts-ignore
-        imagePreviews: [...state.imagePreviews, ...action.payload],
-      };
+    // case TAKE_A_NOTE_TYPES.SET_SELECTED_FILES:
+    //   return {
+    //     ...state,
+    //     // @ts-ignore
+    //     imagePreviews: [...state.imagePreviews, ...action.payload],
+    //   };
     default:
       return state;
   }
@@ -106,7 +105,7 @@ export const useTakeANote = () => {
       type: TAKE_A_NOTE_TYPES.SET_SELECTED_BACKGROUND,
       payload: 'inherit',
     });
-    dispatch({ type: TAKE_A_NOTE_TYPES.SET_SELECTED_FILES, payload: [] });
+    // dispatch({ type: TAKE_A_NOTE_TYPES.SET_SELECTED_FILES, payload: [] });
 
     reset();
   };
@@ -192,10 +191,10 @@ export const useTakeANote = () => {
 
         newSelectedImages.push({ id: uuidV4(), src: image.src });
 
-        dispatch({
-          type: TAKE_A_NOTE_TYPES.SET_SELECTED_FILES,
-          payload: newSelectedImages,
-        });
+        // dispatch({
+        //   type: TAKE_A_NOTE_TYPES.SET_SELECTED_FILES,
+        //   payload: newSelectedImages,
+        // });
       };
     }
   };

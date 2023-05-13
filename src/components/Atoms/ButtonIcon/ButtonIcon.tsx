@@ -1,7 +1,8 @@
-import type { MouseEvent, MouseEventHandler } from 'react';
-import { createRef, useState } from 'react';
+import type { MouseEventHandler } from 'react';
+import { createRef } from 'react';
 
 import { Tooltip } from '@/components/Tooltip/Tooltip';
+import { usePopover } from '@/hooks/usePopover';
 
 type ButtonIconProps = {
   icon: any;
@@ -19,29 +20,13 @@ export function ButtonIcon({
   tooltip,
   ...rest
 }: ButtonIconProps) {
-  const [isOn, setOn] = useState<boolean>(false);
-  const [coords, setCoords] = useState({});
-
-  // @ts-ignore
-  const updateTooltipCoords = (button) => {
-    const rect = button.getBoundingClientRect();
-    setCoords({
-      left: rect.x + rect.width / 2, // add half the width of the button for centering
-      top: rect.y + window.scrollY, // add scrollY offset, as soon as getBountingClientRect takes on screen coords
-    });
-  };
-
-  const handleMouseEnter = (e: MouseEvent<HTMLButtonElement>) => {
-    const { target } = e;
-
-    // @ts-ignore
-    updateTooltipCoords(target.closest('button'));
-    setOn(true);
-  };
-
-  const handleMouseLeave = () => {
-    setOn(false);
-  };
+  const {
+    isOn,
+    coords,
+    updateTooltipCoords,
+    handleMouseEnter,
+    handleMouseLeave,
+  } = usePopover();
 
   return (
     <>

@@ -1,7 +1,7 @@
 import type { MouseEvent } from 'react';
 import { useState } from 'react';
 
-import { Tooltip } from '@/components/Tooltip';
+import { Tooltip } from '@/components/Tooltip/Tooltip';
 import { editorTheme } from '@/constants/editorTheme';
 
 type ButtonBgColorProps = {

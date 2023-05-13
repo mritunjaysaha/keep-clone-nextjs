@@ -1,7 +1,7 @@
 import type { MouseEvent, MouseEventHandler } from 'react';
 import { createRef, useState } from 'react';
 
-import { Tooltip } from '@/components/Tooltip';
+import { Tooltip } from '@/components/Tooltip/Tooltip';
 
 type ButtonIconProps = {
   icon: any;

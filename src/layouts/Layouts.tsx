@@ -15,6 +15,7 @@ interface ILayouts {
 export function Layouts({ children }: ILayouts) {
   const router = useRouter();
   const { jwtToken } = useAppSelector((state) => state.user);
+
   useEffect(() => {
     if (jwtToken) {
       setAuthToken(jwtToken);

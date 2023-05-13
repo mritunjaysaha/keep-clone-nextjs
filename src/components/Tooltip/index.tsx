@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 
-import { Portal } from '@/components/Portal';
+import { Portal } from '@/components/Portal/Portal';
 
 // const styles = {
 //   popover: {

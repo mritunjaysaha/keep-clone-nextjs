@@ -1,4 +1,4 @@
-import type { MouseEventHandler } from 'react';
+import type { ButtonHTMLAttributes } from 'react';
 import { createRef } from 'react';
 
 import { Tooltip } from '@/components/Tooltip/Tooltip';
@@ -7,10 +7,9 @@ import { usePopover } from '@/hooks/usePopover';
 type ButtonIconProps = {
   icon: any;
   size?: number;
-  onClick?: MouseEventHandler<HTMLButtonElement>;
   tooltip?: string;
   disabled?: boolean;
-};
+} & ButtonHTMLAttributes<HTMLButtonElement>;
 
 const btnRef = createRef();
 
@@ -31,10 +30,10 @@ export function ButtonIcon({
   return (
     <>
       <button
-        className='m-2 flex items-center rounded-full p-2 hover:bg-gray-100 disabled:opacity-50'
+        {...rest}
         onMouseEnter={handleMouseEnter}
         onMouseLeave={handleMouseLeave}
-        {...rest}
+        className='m-2 flex items-center rounded-full p-2 hover:bg-gray-100 disabled:opacity-50'
       >
         <Icon size={size} />
       </button>

@@ -5,7 +5,9 @@ import OutsideClickHandler from 'react-outside-click-handler';
 
 import { Button } from '@/components/Atoms/Button/Button';
 import { ButtonIcon } from '@/components/Atoms/ButtonIcon/ButtonIcon';
+import { LabelMenu } from '@/components/LabelMenu/LabelMenu';
 import { BackgroundColorSelector } from '@/components/TakeANote/BackgroundColorSelector';
+import { usePopover } from '@/hooks/usePopover';
 import { useTakeANote } from '@/hooks/useTakeANote';
 
 export function TakeANote() {
@@ -23,6 +25,8 @@ export function TakeANote() {
     handleSelectBackgroundColor,
     currentBackgroundColor,
   } = useTakeANote();
+
+  const { isOn, coords } = usePopover();
 
   return (
     <OutsideClickHandler onOutsideClick={() => handleTakeANoteClicked(false)}>
@@ -101,6 +105,8 @@ export function TakeANote() {
             ) : (
               ''
             )}
+
+            {isOn && <LabelMenu coords={coords} />}
           </>
         )}
       </section>

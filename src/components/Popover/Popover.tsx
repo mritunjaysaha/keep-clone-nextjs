@@ -10,11 +10,11 @@ import { Portal } from '@/components/Portal/Portal';
 // };
 
 // @ts-ignore
-export const Popover = ({ children, coords, updateTooltipCoords }) => {
+export const Popover = ({ children, coords, updateCoords }) => {
   useEffect(() => {
-    window.addEventListener('resize', updateTooltipCoords);
+    window.addEventListener('resize', updateCoords);
 
-    return () => window.removeEventListener('resize', updateTooltipCoords);
+    return () => window.removeEventListener('resize', updateCoords);
   }, []);
 
   return (

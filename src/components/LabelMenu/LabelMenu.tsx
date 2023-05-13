@@ -2,11 +2,16 @@ import { Popover } from '@/components/Popover/Popover';
 import { useAppSelector } from '@/hooks/redux';
 
 // @ts-ignore
-export const LabelMenu = ({ coords, updateTooltipCoords }) => {
+export const LabelMenu = ({ coords }) => {
   const { labels } = useAppSelector((state) => state.user);
 
   return (
-    <Popover coords={coords} updateTooltipCoords={updateTooltipCoords}>
+    <Popover
+      coords={coords}
+      updateCoords={() => {
+        console.log('[LabelMenu] add updateCoords');
+      }}
+    >
       <div>
         <h3>Label Note</h3>
         {/* Add search */}

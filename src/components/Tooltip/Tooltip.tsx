@@ -1,30 +1,12 @@
-import { useEffect } from 'react';
-
-import { Portal } from '@/components/Portal/Portal';
-
-// const styles = {
-//   popover: {
-//     position: 'absolute',
-//     transform: 'translate(-50%,100%)',
-//   },
-// };
+import { Popover } from '@/components/Popover/Popover';
 
 // @ts-ignore
-export const Tooltip = ({ children, coords, updateTooltipCoords }) => {
-  useEffect(() => {
-    window.addEventListener('resize', updateTooltipCoords);
-
-    return () => window.removeEventListener('resize', updateTooltipCoords);
-  }, []);
-
+export const Tooltip = ({ tooltip, coords, updateTooltipCoords }) => {
   return (
-    <Portal>
-      <div
-        className='absolute  m-0 -translate-x-1/2 translate-y-10'
-        style={{ ...coords }}
-      >
-        {children}
-      </div>
-    </Portal>
+    <Popover coords={coords} updateTooltipCoords={updateTooltipCoords}>
+      <p className='rounded-md bg-black px-2 py-1 text-xs text-white opacity-80'>
+        {tooltip}
+      </p>
+    </Popover>
   );
 };

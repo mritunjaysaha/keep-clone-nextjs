@@ -55,16 +55,13 @@ export function ButtonIcon({
       </button>
       {isOn && tooltip && (
         <Tooltip
+          tooltip={tooltip}
           coords={coords}
-          updateTooltipCoords={() =>
+          updateTooltipCoords={() => {
             // @ts-ignore
-            updateTooltipCoords(btnRef.current.buttonNode)
-          }
-        >
-          <p className='rounded-md bg-black px-2 py-1 text-xs text-white opacity-80'>
-            {tooltip}
-          </p>
-        </Tooltip>
+            updateTooltipCoords(btnRef.current.buttonNode);
+          }}
+        />
       )}
     </>
   );

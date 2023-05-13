@@ -67,11 +67,8 @@ export const ButtonBGColor = ({
             // @ts-ignore
             updateTooltipCoords(btnRef.current.buttonNode)
           }
-        >
-          <p className='rounded-md bg-black px-2 py-1 text-xs capitalize text-white opacity-80'>
-            {tooltip}
-          </p>
-        </Tooltip>
+          tooltip={tooltip}
+        />
       )}
     </>
   );

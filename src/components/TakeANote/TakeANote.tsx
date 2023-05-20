@@ -18,6 +18,7 @@ export function TakeANote() {
     handleSubmit,
     onSubmit,
     handlePinClick,
+    handleSelectedLabels,
     handleTextAreaChange,
     handleTakeANoteClicked,
     handleShowColorSelector,
@@ -26,10 +27,13 @@ export function TakeANote() {
     currentBackgroundColor,
   } = useTakeANote();
 
-  const { isOn, coords } = usePopover();
+  const { isOn, coords, handleClick } = usePopover();
 
   return (
-    <OutsideClickHandler onOutsideClick={() => handleTakeANoteClicked(false)}>
+    <OutsideClickHandler
+      onOutsideClick={() => handleTakeANoteClicked(false)}
+      disabled={isOn}
+    >
       <section
         ref={ref}
         className={`box-shadow-editor relative mx-auto my-8 flex min-h-0
@@ -87,7 +91,11 @@ export function TakeANote() {
 
                 {/* <UploadInput onChange={handleFileSelectorChange} multiple /> */}
                 <ButtonIcon icon={BiArchiveIn} tooltip='Archive' />
-                <ButtonIcon icon={MdOutlineNewLabel} tooltip='Add label' />
+                <ButtonIcon
+                  icon={MdOutlineNewLabel}
+                  tooltip='Add label'
+                  onClick={handleClick}
+                />
                 <ButtonIcon disabled={true} icon={BiUndo} tooltip='Undo' />
                 <ButtonIcon disabled={true} icon={BiRedo} tooltip='Redo' />
               </div>
@@ -106,7 +114,13 @@ export function TakeANote() {
               ''
             )}
 
-            {isOn && <LabelMenu coords={coords} />}
+            {isOn && (
+              <LabelMenu
+                coords={coords}
+                selectedLabels={state.selectedLabels}
+                handleSelectedLabels={handleSelectedLabels}
+              />
+            )}
           </>
         )}
       </section>

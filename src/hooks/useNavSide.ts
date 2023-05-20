@@ -1,5 +1,6 @@
 import { useRouter } from 'next/router';
 import type { MouseEventHandler } from 'react';
+import { useEffect } from 'react';
 import { useQuery } from 'react-query';
 
 import ROUTES from '@/constants/routes.json';
@@ -27,17 +28,19 @@ export function useNavSide(): NavSideReturn {
 
   const { email } = useAppSelector((state) => state.user);
 
-  const { data, isError } = useQuery(['getAllLabels', email], () => {
+  const { data, isFetched } = useQuery(['getAllLabels', email], () => {
     return getAllLabelsByUserId(email);
   });
 
-  if (!isError) {
-    console.log('[NavSide]', { data });
+  useEffect(() => {
+    if (isFetched) {
+      console.log('[NavSide]', { data });
 
-    if (data?.success) {
-      dispatch(setLabels(data.labels));
+      if (data?.success) {
+        dispatch(setLabels(data.labels));
+      }
     }
-  }
+  }, [isFetched]);
 
   function handleMouseEnter() {
     dispatch(setNavSideClose(false));

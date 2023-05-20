@@ -10,8 +10,19 @@ import { PersistGate } from 'redux-persist/integration/react';
 import { Layouts } from '@/layouts/Layouts';
 import { persistor, store } from '@/redux/store';
 
+const twentyFourHoursInMs = 1000 * 60 * 60 * 24;
 const MyApp = ({ Component, pageProps }: AppProps) => {
-  const queryClient = new QueryClient();
+  const queryClient = new QueryClient({
+    defaultOptions: {
+      queries: {
+        refetchOnWindowFocus: false,
+        refetchOnMount: false,
+        refetchOnReconnect: false,
+        retry: false,
+        staleTime: twentyFourHoursInMs,
+      },
+    },
+  });
 
   return (
     <Provider store={store}>

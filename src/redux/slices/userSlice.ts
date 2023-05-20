@@ -1,6 +1,9 @@
+import type { PayloadAction } from '@reduxjs/toolkit';
 import { createSlice } from '@reduxjs/toolkit';
 
 import type { Label } from '@/types/labels/Label';
+
+export type LabelForm = Label & { isChecked: boolean };
 
 type UserStateType = {
   isAuthenticated: boolean;
@@ -8,7 +11,8 @@ type UserStateType = {
   firstName: string;
   lastName: string;
   jwtToken: string;
-  labels: Label[];
+  labels: { [labelId: string]: LabelForm };
+  labelIds: string[];
 };
 
 const initialState: UserStateType = {
@@ -17,7 +21,8 @@ const initialState: UserStateType = {
   firstName: '',
   lastName: '',
   jwtToken: '',
-  labels: [],
+  labels: {},
+  labelIds: [],
 };
 
 export const userSlice = createSlice({
@@ -33,8 +38,17 @@ export const userSlice = createSlice({
       state.firstName = payload.firstName;
       state.lastName = payload.lastName;
     },
-    setLabels: (state, { payload }) => {
-      state.labels = payload;
+    setLabels: (state, { payload }: PayloadAction<Label[]>) => {
+      console.log('[Labels]', { payload });
+
+      for (let i = 0, len = payload.length; i < len; i += 1) {
+        const { labelId, labelName } = payload[i] as Label;
+
+        state.labels[labelId] = { labelId, labelName, isChecked: false };
+        if (!state.labelIds.includes(labelId)) {
+          state.labelIds.push(labelId);
+        }
+      }
     },
   },
 });

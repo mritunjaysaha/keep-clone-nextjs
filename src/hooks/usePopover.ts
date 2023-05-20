@@ -24,11 +24,18 @@ export const usePopover = () => {
     setOn(false);
   };
 
+  const handleClick = (e: MouseEvent<HTMLButtonElement>) => {
+    const { target } = e;
+    updateTooltipCoords(target);
+    setOn((prev) => !prev);
+  };
+
   return {
     isOn,
     coords,
     updateTooltipCoords,
     handleMouseEnter,
     handleMouseLeave,
+    handleClick,
   };
 };

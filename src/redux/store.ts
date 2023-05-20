@@ -5,13 +5,23 @@ import storage from 'redux-persist/lib/storage';
 import { globalSlice } from '@/redux/slices/globalSlice';
 import { userSlice } from '@/redux/slices/userSlice';
 
+interface GlobalState {
+  // Define the state shape of the global slice here
+  isNavSideClose: boolean;
+  isMenuClicked: boolean;
+  // Add other properties as needed
+}
+
 const persistConfig = {
   key: 'root',
   storage,
 };
 
 const rootReducer = combineReducers({
-  global: globalSlice.reducer,
+  global: globalSlice.reducer as (
+    state: GlobalState | undefined,
+    action: any,
+  ) => GlobalState,
   user: userSlice.reducer,
 });
 

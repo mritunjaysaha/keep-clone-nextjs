@@ -1,6 +1,6 @@
 import { MdOutlineFormatColorReset } from 'react-icons/md';
 
-import { ButtonBGColor } from '@/components/TakeANote/ButtonBGColor';
+import { ButtonBGColor } from '@/components/TakeANote/components/ButtonBGColor';
 import { editorTheme } from '@/constants/editorTheme';
 
 type Props = {

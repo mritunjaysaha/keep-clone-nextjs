@@ -6,7 +6,8 @@ import OutsideClickHandler from 'react-outside-click-handler';
 import { Button } from '@/components/Atoms/Button/Button';
 import { ButtonIcon } from '@/components/Atoms/ButtonIcon/ButtonIcon';
 import { LabelMenu } from '@/components/LabelMenu/LabelMenu';
-import { BackgroundColorSelector } from '@/components/TakeANote/BackgroundColorSelector';
+import { BackgroundColorSelector } from '@/components/TakeANote/components/BackgroundColorSelector';
+import { useAppSelector } from '@/hooks/redux';
 import { usePopover } from '@/hooks/usePopover';
 import { useTakeANote } from '@/hooks/useTakeANote';
 
@@ -28,6 +29,8 @@ export function TakeANote() {
   } = useTakeANote();
 
   const { isOn, coords, handleClick } = usePopover();
+
+  const { labels } = useAppSelector((reduxState) => reduxState.user);
 
   return (
     <OutsideClickHandler
@@ -83,17 +86,16 @@ export function TakeANote() {
             </form>
 
             <div className='flex'>
-              {/* {Object.keys(getSelectedLabels()).map((labelId) => {
-                const selectedLabels = getSelectedLabels()
+              {Object.keys(state.selectedLabels).map((labelId) => {
                 return (
                   <span key={labelId}>
                     {state.selectedLabels[labelId] &&
                       labels[labelId]?.labelName}
                   </span>
                 );
-              })} */}
+              })}
 
-              {JSON.stringify(state.selectedLabels)}
+              {/* {JSON.stringify(state.selectedLabels)} */}
             </div>
 
             <div className='relative flex h-max items-center justify-between'>

@@ -8,6 +8,7 @@ import { ButtonIcon } from '@/components/Atoms/ButtonIcon/ButtonIcon';
 import { LabelMenu } from '@/components/LabelMenu/LabelMenu';
 import { BackgroundColorSelector } from '@/components/TakeANote/components/BackgroundColorSelector';
 import { LinkLabel } from '@/components/TakeANote/components/LinkLabel';
+import ROUTES from '@/constants/routes.json';
 import { useAppSelector } from '@/hooks/redux';
 import { usePopover } from '@/hooks/usePopover';
 import { useTakeANote } from '@/hooks/useTakeANote';
@@ -86,7 +87,7 @@ export function TakeANote() {
               />
             </form>
 
-            <div className='flex'>
+            <div className='flex w-full flex-wrap gap-2'>
               {Object.keys(state.selectedLabels).map((labelId) => {
                 const showLabel = state.selectedLabels[labelId];
 
@@ -98,7 +99,7 @@ export function TakeANote() {
                       removeLabelHandler={() => {
                         console.log('[LinkLabel] removeLabelHandler clicked');
                       }}
-                      href={'/'}
+                      href={`${ROUTES.LABELS}/${labelId}`}
                     />
                   );
                 }

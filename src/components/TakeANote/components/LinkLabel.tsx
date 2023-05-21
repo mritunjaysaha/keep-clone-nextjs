@@ -16,12 +16,10 @@ export const LinkLabel = ({
   ...rest
 }: LinkLabelProps) => {
   return (
-    <Link
-      className='flex items-center gap-1 rounded-full border pl-2 text-[10px] text-white'
-      {...rest}
-    >
-      <span>{labelName}</span>
-
+    <span className='flex items-center gap-1 rounded-full border pl-2 text-[10px] text-white'>
+      <Link {...rest} className='text-black dark:text-light'>
+        {labelName}
+      </Link>
       <ButtonIcon
         icon={IoIosClose}
         onClick={removeLabelHandler}
@@ -29,6 +27,6 @@ export const LinkLabel = ({
         noPadding={true}
         size={20}
       />
-    </Link>
+    </span>
   );
 };

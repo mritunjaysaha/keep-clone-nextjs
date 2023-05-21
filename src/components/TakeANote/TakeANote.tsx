@@ -21,6 +21,7 @@ export function TakeANote() {
     handleSubmit,
     onSubmit,
     handlePinClick,
+    handleRemoveLabels,
     handleSelectedLabels,
     handleTextAreaChange,
     handleTakeANoteClicked,
@@ -97,7 +98,7 @@ export function TakeANote() {
                       key={labelId}
                       labelName={labels[labelId]?.labelName as string}
                       removeLabelHandler={() => {
-                        console.log('[LinkLabel] removeLabelHandler clicked');
+                        handleRemoveLabels(labelId);
                       }}
                       href={`${ROUTES.LABELS}/${labelId}`}
                     />
@@ -106,8 +107,6 @@ export function TakeANote() {
 
                 return <></>;
               })}
-
-              {/* {JSON.stringify(state.selectedLabels)} */}
             </div>
 
             <div className='relative flex h-max items-center justify-between'>

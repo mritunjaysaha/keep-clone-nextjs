@@ -251,6 +251,13 @@ export const useTakeANote = () => {
     );
   };
 
+  const handleRemoveLabels = (labelId: string): void => {
+    dispatch({
+      type: TAKE_A_NOTE_TYPES.SET_SELECTED_LABELS,
+      payload: { labelId, isChecked: false },
+    });
+  };
+
   return {
     ref,
     state,
@@ -258,6 +265,7 @@ export const useTakeANote = () => {
     onSubmit,
     handleSubmit,
     handlePinClick,
+    handleRemoveLabels,
     handleSelectedLabels,
     handleTextAreaChange,
     handleTakeANoteClicked,

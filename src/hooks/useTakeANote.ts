@@ -70,10 +70,23 @@ const takeANoteReducer = (
     //     imagePreviews: [...state.imagePreviews, ...action.payload],
     //   };
     case TAKE_A_NOTE_TYPES.SET_SELECTED_LABELS:
-      // @ts-ignore
-      state.selectedLabels[action.payload.labelId] = action.payload.isChecked;
+      if (!Object.keys(action.payload).length) {
+        return { ...state, selectedLabels: {} };
+      }
 
-      return state;
+      // eslint-disable-next-line
+      const { labelId, isChecked } = action.payload as {
+        labelId: string;
+        isChecked: boolean;
+      };
+      return {
+        ...state,
+        selectedLabels: {
+          ...state.selectedLabels,
+          [labelId]: isChecked,
+        },
+      };
+
     default:
       return state;
   }
@@ -84,26 +97,14 @@ export const useTakeANote = () => {
   const { register, handleSubmit, reset } = useForm<TodoFormData>();
   const [state, dispatch] = useReducer(takeANoteReducer, initialState);
 
-  const { email, labels, labelIds } = useAppSelector(
-    (reduxState) => reduxState.user,
-  );
+  const { email, labels } = useAppSelector((reduxState) => reduxState.user);
+
+  useEffect(() => {
+    console.log('[state]', state.selectedLabels);
+  }, [state]);
 
   const ref = useRef(null);
   const todoId = useMemo(() => uuidV4(), [state.isTakeANoteClicked]);
-
-  useEffect(() => {
-    for (let i = 0, len = labelIds.length; i < len; i += 1) {
-      console.log(labelIds[i]);
-      dispatch({
-        type: TAKE_A_NOTE_TYPES.SET_SELECTED_LABELS,
-        payload: { labelId: labelIds[i] as string, isChecked: false },
-      });
-    }
-  }, []);
-
-  useEffect(() => {
-    console.log('[State]', state);
-  }, [state]);
 
   // @ts-ignore
   const currentBackgroundColor = backgroundColor[state.selectedBackground];
@@ -131,7 +132,10 @@ export const useTakeANote = () => {
       payload: 'inherit',
     });
     // dispatch({ type: TAKE_A_NOTE_TYPES.SET_SELECTED_FILES, payload: [] });
-    // dispatch({ type: TAKE_A_NOTE_TYPES.SET_SELECTED_LABELS, payload: [] });
+    dispatch({
+      type: TAKE_A_NOTE_TYPES.SET_SELECTED_LABELS,
+      payload: {} as { labelId: string; isChecked: boolean },
+    });
 
     reset();
   };

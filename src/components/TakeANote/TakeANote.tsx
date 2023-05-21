@@ -33,6 +33,7 @@ export function TakeANote() {
     <OutsideClickHandler
       onOutsideClick={() => handleTakeANoteClicked(false)}
       disabled={isOn}
+      key={Date.now()}
     >
       <section
         ref={ref}
@@ -80,6 +81,20 @@ export function TakeANote() {
                 className='textarea'
               />
             </form>
+
+            <div className='flex'>
+              {/* {Object.keys(getSelectedLabels()).map((labelId) => {
+                const selectedLabels = getSelectedLabels()
+                return (
+                  <span key={labelId}>
+                    {state.selectedLabels[labelId] &&
+                      labels[labelId]?.labelName}
+                  </span>
+                );
+              })} */}
+
+              {JSON.stringify(state.selectedLabels)}
+            </div>
 
             <div className='relative flex h-max items-center justify-between'>
               <div className='flex gap-1'>

@@ -27,7 +27,7 @@ export const LabelMenu = ({ coords, selectedLabels, handleSelectedLabels }) => {
                   type='checkbox'
                   value={labelName}
                   name={labelName}
-                  checked={selectedLabels[labelId].isChecked}
+                  checked={!!selectedLabels[labelId]}
                   onChange={handleSelectedLabels}
                 />
                 {labelName}

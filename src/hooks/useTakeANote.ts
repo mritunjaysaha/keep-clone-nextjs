@@ -13,6 +13,8 @@ import { debounce } from '@/utils/debounce';
 
 type TodoFormData = Pick<Todo, 'todoTitle' | 'todoBody'>;
 
+type SelectedLabels = { labelId: string; isChecked: boolean };
+
 const TAKE_A_NOTE_TYPES = {
   SET_PINNED: 'SET_PINNED',
   SET_SHOW_COLOR: 'SET_SHOW_COLOR',
@@ -29,7 +31,7 @@ type TakeANoteAction = {
     | typeof TAKE_A_NOTE_TYPES.SET_TAKE_NOTE_CLICKED
     | typeof TAKE_A_NOTE_TYPES.SET_SELECTED_BACKGROUND
     | typeof TAKE_A_NOTE_TYPES.SET_SELECTED_LABELS;
-  payload: boolean | string | { labelId: string; isChecked: boolean };
+  payload: boolean | string | SelectedLabels;
 };
 
 type TakeANoteState = {
@@ -75,10 +77,7 @@ const takeANoteReducer = (
       }
 
       // eslint-disable-next-line
-      const { labelId, isChecked } = action.payload as {
-        labelId: string;
-        isChecked: boolean;
-      };
+      const { labelId, isChecked } = action.payload as SelectedLabels;
       return {
         ...state,
         selectedLabels: {
@@ -134,7 +133,7 @@ export const useTakeANote = () => {
     // dispatch({ type: TAKE_A_NOTE_TYPES.SET_SELECTED_FILES, payload: [] });
     dispatch({
       type: TAKE_A_NOTE_TYPES.SET_SELECTED_LABELS,
-      payload: {} as { labelId: string; isChecked: boolean },
+      payload: {} as SelectedLabels,
     });
 
     reset();

@@ -31,7 +31,7 @@ export function TakeANote() {
     currentBackgroundColor,
   } = useTakeANote();
 
-  const { isOn, coords, handleClick } = usePopover();
+  const { isOn, coords, handleClick: handleLabelMenuClick } = usePopover();
 
   const { labels } = useAppSelector((reduxState) => reduxState.user);
 
@@ -88,7 +88,7 @@ export function TakeANote() {
               />
             </form>
 
-            <div className='flex w-full flex-wrap gap-2'>
+            <div className='flex h-8 w-full flex-wrap gap-2'>
               {Object.keys(state.selectedLabels).map((labelId) => {
                 const showLabel = state.selectedLabels[labelId];
 
@@ -122,7 +122,7 @@ export function TakeANote() {
                 <ButtonIcon
                   icon={MdOutlineNewLabel}
                   tooltip='Add label'
-                  onClick={handleClick}
+                  onClick={handleLabelMenuClick}
                 />
                 <ButtonIcon disabled={true} icon={BiUndo} tooltip='Undo' />
                 <ButtonIcon disabled={true} icon={BiRedo} tooltip='Redo' />
@@ -143,11 +143,18 @@ export function TakeANote() {
             )}
 
             {isOn && (
-              <LabelMenu
-                coords={coords}
-                selectedLabels={state.selectedLabels}
-                handleSelectedLabels={handleSelectedLabels}
-              />
+              <OutsideClickHandler
+                onOutsideClick={(e) => {
+                  // @ts-ignore
+                  handleLabelMenuClick(e);
+                }}
+              >
+                <LabelMenu
+                  coords={coords}
+                  selectedLabels={state.selectedLabels}
+                  handleSelectedLabels={handleSelectedLabels}
+                />
+              </OutsideClickHandler>
             )}
           </>
         )}

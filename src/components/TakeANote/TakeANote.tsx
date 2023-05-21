@@ -7,6 +7,7 @@ import { Button } from '@/components/Atoms/Button/Button';
 import { ButtonIcon } from '@/components/Atoms/ButtonIcon/ButtonIcon';
 import { LabelMenu } from '@/components/LabelMenu/LabelMenu';
 import { BackgroundColorSelector } from '@/components/TakeANote/components/BackgroundColorSelector';
+import { LinkLabel } from '@/components/TakeANote/components/LinkLabel';
 import { useAppSelector } from '@/hooks/redux';
 import { usePopover } from '@/hooks/usePopover';
 import { useTakeANote } from '@/hooks/useTakeANote';
@@ -87,12 +88,22 @@ export function TakeANote() {
 
             <div className='flex'>
               {Object.keys(state.selectedLabels).map((labelId) => {
-                return (
-                  <span key={labelId}>
-                    {state.selectedLabels[labelId] &&
-                      labels[labelId]?.labelName}
-                  </span>
-                );
+                const showLabel = state.selectedLabels[labelId];
+
+                if (showLabel) {
+                  return (
+                    <LinkLabel
+                      key={labelId}
+                      labelName={labels[labelId]?.labelName as string}
+                      removeLabelHandler={() => {
+                        console.log('[LinkLabel] removeLabelHandler clicked');
+                      }}
+                      href={'/'}
+                    />
+                  );
+                }
+
+                return <></>;
               })}
 
               {/* {JSON.stringify(state.selectedLabels)} */}

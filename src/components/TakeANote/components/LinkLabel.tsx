@@ -16,7 +16,7 @@ export const LinkLabel = ({
   ...rest
 }: LinkLabelProps) => {
   return (
-    <span className='flex items-center gap-1 rounded-full border pl-2 text-[10px] text-white'>
+    <span className='flex items-center gap-1 rounded-full border pl-2 text-[10px] text-black dark:text-light'>
       <Link {...rest} className='text-black dark:text-light'>
         {labelName}
       </Link>

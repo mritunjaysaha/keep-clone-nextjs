@@ -8,6 +8,16 @@
   padding: 0;
 }
 
+input[type='checkbox'] {
+  content: url(/assets/icons/checkbox_empty.svg);
+
+  appearance: none;
+}
+
+input[type='checkbox']:checked {
+  content: url(/assets/icons/checkbox_checked.svg);
+}
+
 a {
   @apply text-blue-700;
 }

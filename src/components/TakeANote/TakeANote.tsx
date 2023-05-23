@@ -143,18 +143,19 @@ export function TakeANote() {
             )}
 
             {isOn && (
-              <OutsideClickHandler
-                onOutsideClick={(e) => {
-                  // @ts-ignore
-                  handleLabelMenuClick(e);
-                }}
-              >
-                <LabelMenu
-                  coords={coords}
-                  selectedLabels={state.selectedLabels}
-                  handleSelectedLabels={handleSelectedLabels}
-                />
-              </OutsideClickHandler>
+              // <OutsideClickHandler
+
+              //   onOutsideClick={(e) => {
+              //     // @ts-ignore
+              //     // handleLabelMenuClick(e);
+              //   }}
+              // >
+              <LabelMenu
+                coords={coords}
+                selectedLabels={state.selectedLabels}
+                handleSelectedLabels={handleSelectedLabels}
+              />
+              // </OutsideClickHandler>
             )}
           </>
         )}

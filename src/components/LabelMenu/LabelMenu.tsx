@@ -13,15 +13,18 @@ export const LabelMenu = ({ coords, selectedLabels, handleSelectedLabels }) => {
         console.log('[LabelMenu] add updateCoords');
       }}
     >
-      <div className='border bg-light p-2 text-sm dark:bg-dark dark:text-light'>
-        <h3 className='font-medium'>Label Note</h3>
+      <div className='w-32 border bg-light p-2 text-sm dark:bg-dark dark:text-light'>
+        <h3 className='mb-2 font-medium'>Label Note</h3>
         {/* Add search */}
         <form className='flex flex-col text-sm'>
           {labelIds?.map((labelId) => {
             const labelName = labels[labelId]?.labelName;
 
             return (
-              <label key={labelId}>
+              <label
+                key={labelId}
+                className='flex items-center gap-1 text-slate-500'
+              >
                 <input
                   id={labelId}
                   type='checkbox'

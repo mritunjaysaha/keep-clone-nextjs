@@ -32,7 +32,7 @@ export const LinkLabel = ({
   return (
     <Link
       {...rest}
-      className='flex h-8 items-center gap-1 rounded-full border border-dark p-2 text-[10px] text-black dark:border-light dark:text-light'
+      className='flex h-8 items-center gap-1 rounded-full border-0 bg-slate-300  p-2 text-[10px] text-black hover:border-0 dark:border dark:border-light dark:bg-inherit dark:text-light'
       onMouseEnter={() => {
         setIsHover(true);
       }}

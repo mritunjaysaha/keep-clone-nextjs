@@ -1,9 +1,13 @@
 import { useRouter } from 'next/router';
 import type { MouseEventHandler } from 'react';
+import { useEffect } from 'react';
+import { useQuery } from 'react-query';
 
 import ROUTES from '@/constants/routes.json';
 import { useAppDispatch, useAppSelector } from '@/hooks/redux';
 import { setNavSideClose } from '@/redux/slices/globalSlice';
+import { setLabels } from '@/redux/slices/userSlice';
+import { getAllLabelsByUserId } from '@/request/httpCalls/labels/getAllLabelsByUserId';
 
 type NavSideReturn = {
   isNavSideClose: boolean;
@@ -21,6 +25,22 @@ export function useNavSide(): NavSideReturn {
   const { isNavSideClose, isMenuClicked } = useAppSelector(
     (state) => state.global,
   );
+
+  const { email } = useAppSelector((state) => state.user);
+
+  const { data, isFetched } = useQuery(['getAllLabels', email], () => {
+    return getAllLabelsByUserId(email);
+  });
+
+  useEffect(() => {
+    if (isFetched) {
+      console.log('[NavSide]', { data });
+
+      if (data?.success) {
+        dispatch(setLabels(data.labels));
+      }
+    }
+  }, [isFetched]);
 
   function handleMouseEnter() {
     dispatch(setNavSideClose(false));

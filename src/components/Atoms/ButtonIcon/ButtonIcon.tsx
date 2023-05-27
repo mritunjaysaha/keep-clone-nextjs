@@ -1,15 +1,16 @@
-import type { MouseEvent, MouseEventHandler } from 'react';
-import { createRef, useState } from 'react';
+import type { ButtonHTMLAttributes } from 'react';
+import { createRef } from 'react';
 
-import { Tooltip } from '@/components/Tooltip';
+import { Tooltip } from '@/components/Tooltip/Tooltip';
+import { usePopover } from '@/hooks/usePopover';
 
 type ButtonIconProps = {
   icon: any;
   size?: number;
-  onClick?: MouseEventHandler<HTMLButtonElement>;
   tooltip?: string;
   disabled?: boolean;
-};
+  noPadding?: boolean;
+} & ButtonHTMLAttributes<HTMLButtonElement>;
 
 const btnRef = createRef();
 
@@ -17,54 +18,38 @@ export function ButtonIcon({
   icon: Icon,
   size = 20,
   tooltip,
+  noPadding = false,
   ...rest
 }: ButtonIconProps) {
-  const [isOn, setOn] = useState<boolean>(false);
-  const [coords, setCoords] = useState({});
-
-  // @ts-ignore
-  const updateTooltipCoords = (button) => {
-    const rect = button.getBoundingClientRect();
-    setCoords({
-      left: rect.x + rect.width / 2, // add half the width of the button for centering
-      top: rect.y + window.scrollY, // add scrollY offset, as soon as getBountingClientRect takes on screen coords
-    });
-  };
-
-  const handleMouseEnter = (e: MouseEvent<HTMLButtonElement>) => {
-    const { target } = e;
-
-    // @ts-ignore
-    updateTooltipCoords(target.closest('button'));
-    setOn(true);
-  };
-
-  const handleMouseLeave = () => {
-    setOn(false);
-  };
+  const {
+    isOn,
+    coords,
+    updateTooltipCoords,
+    handleMouseEnter,
+    handleMouseLeave,
+  } = usePopover();
 
   return (
     <>
       <button
-        className='m-2 flex items-center rounded-full p-2 hover:bg-gray-100 disabled:opacity-50'
+        {...rest}
         onMouseEnter={handleMouseEnter}
         onMouseLeave={handleMouseLeave}
-        {...rest}
+        className={`m-0 flex items-center rounded-full ${
+          noPadding ? 'p-0' : 'p-2'
+        } hover:bg-gray-100 disabled:opacity-50`}
       >
-        <Icon size={size} />
+        <Icon size={size} className='text-inherit' />
       </button>
       {isOn && tooltip && (
         <Tooltip
+          tooltip={tooltip}
           coords={coords}
-          updateTooltipCoords={() =>
+          updateTooltipCoords={() => {
             // @ts-ignore
-            updateTooltipCoords(btnRef.current.buttonNode)
-          }
-        >
-          <p className='rounded-md bg-black px-2 py-1 text-xs text-white opacity-80'>
-            {tooltip}
-          </p>
-        </Tooltip>
+            updateTooltipCoords(btnRef.current.buttonNode);
+          }}
+        />
       )}
     </>
   );

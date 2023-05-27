@@ -1,8 +1,6 @@
-import type { MouseEvent } from 'react';
-import { useState } from 'react';
-
-import { Tooltip } from '@/components/Tooltip';
+import { Tooltip } from '@/components/Tooltip/Tooltip';
 import { editorTheme } from '@/constants/editorTheme';
+import { usePopover } from '@/hooks/usePopover';
 
 type ButtonBgColorProps = {
   color: string;
@@ -26,27 +24,13 @@ export const ButtonBGColor = ({
   // @ts-ignore
   const currentButtonColor = buttonColor[color] as string;
 
-  const [isOn, setOn] = useState<boolean>(false);
-  const [coords, setCoords] = useState({});
-
-  // @ts-ignore
-  const updateTooltipCoords = (button) => {
-    const rect = button.getBoundingClientRect();
-    setCoords({
-      left: rect.x + rect.width / 2, // add half the width of the button for centering
-      top: rect.y + window.scrollY, // add scrollY offset, as soon as getBountingClientRect takes on screen coords
-    });
-  };
-
-  const handleMouseEnter = (e: MouseEvent<HTMLButtonElement>) => {
-    const { target } = e;
-    updateTooltipCoords(target);
-    setOn(true);
-  };
-
-  const handleMouseLeave = () => {
-    setOn(false);
-  };
+  const {
+    isOn,
+    coords,
+    updateTooltipCoords,
+    handleMouseEnter,
+    handleMouseLeave,
+  } = usePopover();
 
   return (
     <>
@@ -67,11 +51,8 @@ export const ButtonBGColor = ({
             // @ts-ignore
             updateTooltipCoords(btnRef.current.buttonNode)
           }
-        >
-          <p className='rounded-md bg-black px-2 py-1 text-xs capitalize text-white opacity-80'>
-            {tooltip}
-          </p>
-        </Tooltip>
+          tooltip={tooltip}
+        />
       )}
     </>
   );

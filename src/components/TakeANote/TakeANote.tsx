@@ -5,7 +5,12 @@ import OutsideClickHandler from 'react-outside-click-handler';
 
 import { Button } from '@/components/Atoms/Button/Button';
 import { ButtonIcon } from '@/components/Atoms/ButtonIcon/ButtonIcon';
-import { BackgroundColorSelector } from '@/components/TakeANote/BackgroundColorSelector';
+import { LabelMenu } from '@/components/LabelMenu/LabelMenu';
+import { BackgroundColorSelector } from '@/components/TakeANote/components/BackgroundColorSelector';
+import { LinkLabel } from '@/components/TakeANote/components/LinkLabel';
+import ROUTES from '@/constants/routes.json';
+import { useAppSelector } from '@/hooks/redux';
+import { usePopover } from '@/hooks/usePopover';
 import { useTakeANote } from '@/hooks/useTakeANote';
 
 export function TakeANote() {
@@ -16,6 +21,8 @@ export function TakeANote() {
     handleSubmit,
     onSubmit,
     handlePinClick,
+    handleRemoveLabels,
+    handleSelectedLabels,
     handleTextAreaChange,
     handleTakeANoteClicked,
     handleShowColorSelector,
@@ -24,8 +31,16 @@ export function TakeANote() {
     currentBackgroundColor,
   } = useTakeANote();
 
+  const { isOn, coords, handleClick: handleLabelMenuClick } = usePopover();
+
+  const { labels } = useAppSelector((reduxState) => reduxState.user);
+
   return (
-    <OutsideClickHandler onOutsideClick={() => handleTakeANoteClicked(false)}>
+    <OutsideClickHandler
+      onOutsideClick={() => handleTakeANoteClicked(false)}
+      disabled={isOn}
+      key={Date.now()}
+    >
       <section
         ref={ref}
         className={`box-shadow-editor relative mx-auto my-8 flex min-h-0
@@ -73,6 +88,27 @@ export function TakeANote() {
               />
             </form>
 
+            <div className='flex h-8 w-full flex-wrap gap-2'>
+              {Object.keys(state.selectedLabels).map((labelId) => {
+                const showLabel = state.selectedLabels[labelId];
+
+                if (showLabel) {
+                  return (
+                    <LinkLabel
+                      key={labelId}
+                      labelName={labels[labelId]?.labelName as string}
+                      removeLabelHandler={() => {
+                        handleRemoveLabels(labelId);
+                      }}
+                      href={`${ROUTES.LABELS}/${labelId}`}
+                    />
+                  );
+                }
+
+                return <></>;
+              })}
+            </div>
+
             <div className='relative flex h-max items-center justify-between'>
               <div className='flex gap-1'>
                 <ButtonIcon
@@ -83,7 +119,11 @@ export function TakeANote() {
 
                 {/* <UploadInput onChange={handleFileSelectorChange} multiple /> */}
                 <ButtonIcon icon={BiArchiveIn} tooltip='Archive' />
-                <ButtonIcon icon={MdOutlineNewLabel} tooltip='Add label' />
+                <ButtonIcon
+                  icon={MdOutlineNewLabel}
+                  tooltip='Add label'
+                  onClick={handleLabelMenuClick}
+                />
                 <ButtonIcon disabled={true} icon={BiUndo} tooltip='Undo' />
                 <ButtonIcon disabled={true} icon={BiRedo} tooltip='Redo' />
               </div>
@@ -100,6 +140,22 @@ export function TakeANote() {
               </OutsideClickHandler>
             ) : (
               ''
+            )}
+
+            {isOn && (
+              // <OutsideClickHandler
+
+              //   onOutsideClick={(e) => {
+              //     // @ts-ignore
+              //     // handleLabelMenuClick(e);
+              //   }}
+              // >
+              <LabelMenu
+                coords={coords}
+                selectedLabels={state.selectedLabels}
+                handleSelectedLabels={handleSelectedLabels}
+              />
+              // </OutsideClickHandler>
             )}
           </>
         )}

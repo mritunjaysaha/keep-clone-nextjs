@@ -3,7 +3,7 @@ import { useEffect } from 'react';
 
 import { Nav } from '@/components/Nav/Nav';
 import { NavSide } from '@/components/NavSide/NavSide';
-import { TakeANote } from '@/components/TakeANote';
+import { TakeANote } from '@/components/TakeANote/TakeANote';
 import ROUTES from '@/constants/routes.json';
 import { useAppSelector } from '@/hooks/redux';
 import { setAuthToken } from '@/utils/setAuthToken';
@@ -15,6 +15,7 @@ interface ILayouts {
 export function Layouts({ children }: ILayouts) {
   const router = useRouter();
   const { jwtToken } = useAppSelector((state) => state.user);
+
   useEffect(() => {
     if (jwtToken) {
       setAuthToken(jwtToken);

@@ -1,5 +1,5 @@
 import type { ChangeEvent, MouseEvent } from 'react';
-import { useMemo, useReducer, useRef } from 'react';
+import { useEffect, useMemo, useReducer, useRef } from 'react';
 import type { SubmitHandler } from 'react-hook-form';
 import { useForm } from 'react-hook-form';
 import { v4 as uuidV4 } from 'uuid';
@@ -13,13 +13,7 @@ import { debounce } from '@/utils/debounce';
 
 type TodoFormData = Pick<Todo, 'todoTitle' | 'todoBody'>;
 
-type TakeANoteState = {
-  isPinned: boolean;
-  showColorSelector: boolean;
-  isTakeANoteClicked: boolean;
-  selectedBackground: string;
-  imagePreviews: string[];
-};
+type SelectedLabels = { labelId: string; isChecked: boolean };
 
 const TAKE_A_NOTE_TYPES = {
   SET_PINNED: 'SET_PINNED',
@@ -27,6 +21,7 @@ const TAKE_A_NOTE_TYPES = {
   SET_TAKE_NOTE_CLICKED: 'SET_TAKE_NOTE_CLICKED',
   SET_SELECTED_BACKGROUND: 'SET_SELECTED_BACKGROUND',
   SET_SELECTED_FILES: 'SET_SELECTED_FILES',
+  SET_SELECTED_LABELS: 'SET_SELECTED_LABELS',
 };
 
 type TakeANoteAction = {
@@ -34,8 +29,18 @@ type TakeANoteAction = {
     | typeof TAKE_A_NOTE_TYPES.SET_PINNED
     | typeof TAKE_A_NOTE_TYPES.SET_SHOW_COLOR
     | typeof TAKE_A_NOTE_TYPES.SET_TAKE_NOTE_CLICKED
-    | typeof TAKE_A_NOTE_TYPES.SET_SELECTED_BACKGROUND;
-  payload: boolean | string;
+    | typeof TAKE_A_NOTE_TYPES.SET_SELECTED_BACKGROUND
+    | typeof TAKE_A_NOTE_TYPES.SET_SELECTED_LABELS;
+  payload: boolean | string | SelectedLabels;
+};
+
+type TakeANoteState = {
+  isPinned: boolean;
+  showColorSelector: boolean;
+  isTakeANoteClicked: boolean;
+  selectedBackground: string;
+  imagePreviews: string[];
+  selectedLabels: { [key: string]: boolean };
 };
 
 const initialState: TakeANoteState = {
@@ -44,6 +49,7 @@ const initialState: TakeANoteState = {
   isTakeANoteClicked: false,
   selectedBackground: 'inherit',
   imagePreviews: [],
+  selectedLabels: {},
 };
 
 const takeANoteReducer = (
@@ -65,6 +71,21 @@ const takeANoteReducer = (
     //     // @ts-ignore
     //     imagePreviews: [...state.imagePreviews, ...action.payload],
     //   };
+    case TAKE_A_NOTE_TYPES.SET_SELECTED_LABELS:
+      if (!Object.keys(action.payload).length) {
+        return { ...state, selectedLabels: {} };
+      }
+
+      // eslint-disable-next-line
+      const { labelId, isChecked } = action.payload as SelectedLabels;
+      return {
+        ...state,
+        selectedLabels: {
+          ...state.selectedLabels,
+          [labelId]: isChecked,
+        },
+      };
+
     default:
       return state;
   }
@@ -75,7 +96,11 @@ export const useTakeANote = () => {
   const { register, handleSubmit, reset } = useForm<TodoFormData>();
   const [state, dispatch] = useReducer(takeANoteReducer, initialState);
 
-  const { email } = useAppSelector((reduxState) => reduxState.user);
+  const { email, labels } = useAppSelector((reduxState) => reduxState.user);
+
+  useEffect(() => {
+    console.log('[state]', state.selectedLabels);
+  }, [state]);
 
   const ref = useRef(null);
   const todoId = useMemo(() => uuidV4(), [state.isTakeANoteClicked]);
@@ -106,6 +131,10 @@ export const useTakeANote = () => {
       payload: 'inherit',
     });
     // dispatch({ type: TAKE_A_NOTE_TYPES.SET_SELECTED_FILES, payload: [] });
+    dispatch({
+      type: TAKE_A_NOTE_TYPES.SET_SELECTED_LABELS,
+      payload: {} as SelectedLabels,
+    });
 
     reset();
   };
@@ -199,6 +228,36 @@ export const useTakeANote = () => {
     }
   };
 
+  const handleSelectedLabels = (e: ChangeEvent<HTMLInputElement>) => {
+    const labelId = e.target.id;
+
+    const label = labels[labelId];
+
+    const isCurrentLabelChecked = state.selectedLabels[labelId];
+
+    dispatch({
+      type: TAKE_A_NOTE_TYPES.SET_SELECTED_LABELS,
+      payload: { labelId, isChecked: !isCurrentLabelChecked },
+    });
+
+    console.log(
+      '[TakeANote][handleSelectedLabels]',
+      {
+        labelId,
+        label,
+        isCurrentLabelChecked,
+      },
+      state.selectedLabels,
+    );
+  };
+
+  const handleRemoveLabels = (labelId: string): void => {
+    dispatch({
+      type: TAKE_A_NOTE_TYPES.SET_SELECTED_LABELS,
+      payload: { labelId, isChecked: false },
+    });
+  };
+
   return {
     ref,
     state,
@@ -206,6 +265,8 @@ export const useTakeANote = () => {
     onSubmit,
     handleSubmit,
     handlePinClick,
+    handleRemoveLabels,
+    handleSelectedLabels,
     handleTextAreaChange,
     handleTakeANoteClicked,
     handleShowColorSelector,

@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 
-import { Portal } from '@/components/Portal';
+import { Portal } from '@/components/Portal/Portal';
 
 // const styles = {
 //   popover: {
@@ -10,11 +10,11 @@ import { Portal } from '@/components/Portal';
 // };
 
 // @ts-ignore
-export const Tooltip = ({ children, coords, updateTooltipCoords }) => {
+export const Popover = ({ children, coords, updateCoords }) => {
   useEffect(() => {
-    window.addEventListener('resize', updateTooltipCoords);
+    window.addEventListener('resize', updateCoords);
 
-    return () => window.removeEventListener('resize', updateTooltipCoords);
+    return () => window.removeEventListener('resize', updateCoords);
   }, []);
 
   return (

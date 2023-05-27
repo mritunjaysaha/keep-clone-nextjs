@@ -13,8 +13,9 @@ export function UserCreatedLabels() {
 
   return (
     <>
-      {labels.map(({ labelName, labelId }: Label) => {
+      {Object.keys(labels).map((labelId) => {
         const labelRoute = `${ROUTES.LABELS}/${labelId}`;
+        const { labelName } = labels[labelId] as Label;
 
         return (
           <NavButtons

@@ -7,7 +7,7 @@
     "plugin:@tanstack/eslint-plugin-query/recommended"
   ],
   "rules": {
-    "no-param-reassign": 0,
+    "no-param-reassign": 1,
     "prettier/prettier": [
       "error",
       {
@@ -16,11 +16,11 @@
       }
     ],
     "react/react-in-jsx-scope": 0,
-    "@typescript-eslint/no-empty-function": 0,
+    "@typescript-eslint/no-empty-function": 1,
     "spaced-comment": "error",
     "quotes": ["error", "single"],
     "tailwindcss/no-custom-classname": 0,
-    "@typescript-eslint/restrict-template-expressions": 0,
+    "@typescript-eslint/restrict-template-expressions": 1,
     "@tanstack/query/exhaustive-deps": "error",
     "@tanstack/query/prefer-query-object-syntax": "error"
   },
@@ -28,7 +28,12 @@
     // Configuration for TypeScript files
     {
       "files": ["**/*.ts", "**/*.tsx"],
-      "plugins": ["@typescript-eslint", "unused-imports", "tailwindcss", "simple-import-sort"],
+      "plugins": [
+        "@typescript-eslint",
+        "unused-imports",
+        "tailwindcss",
+        "simple-import-sort"
+      ],
       "extends": [
         "plugin:tailwindcss/recommended",
         "airbnb-typescript",
@@ -53,13 +58,21 @@
         "@next/next/no-img-element": "off", // We currently not using next/image because it isn't supported with SSG mode
         "@typescript-eslint/comma-dangle": "off", // Avoid conflict rule between Eslint and Prettier
         "@typescript-eslint/consistent-type-imports": "error", // Ensure `import type` is used when it's necessary
-        "no-restricted-syntax": ["error", "ForInStatement", "LabeledStatement", "WithStatement"], // Overrides Airbnb configuration and enable no-restricted-syntax
+        "no-restricted-syntax": [
+          "error",
+          "ForInStatement",
+          "LabeledStatement",
+          "WithStatement"
+        ], // Overrides Airbnb configuration and enable no-restricted-syntax
         "import/prefer-default-export": "off", // Named export is easier to refactor automatically
         "simple-import-sort/imports": "error", // Import configuration for `eslint-plugin-simple-import-sort`
         "simple-import-sort/exports": "error", // Export configuration for `eslint-plugin-simple-import-sort`
         "@typescript-eslint/no-unused-vars": "off",
         "unused-imports/no-unused-imports": "error",
-        "unused-imports/no-unused-vars": ["error", { "argsIgnorePattern": "^_" }]
+        "unused-imports/no-unused-vars": [
+          "error",
+          { "argsIgnorePattern": "^_" }
+        ]
       }
     },
     // Configuration for testing

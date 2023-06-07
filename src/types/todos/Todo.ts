@@ -1,4 +1,5 @@
 export type Todo = {
+  todoId?: string;
   todoTitle?: string;
   todoBody?: string;
   theme?: string;
@@ -7,4 +8,5 @@ export type Todo = {
   hasReminder?: boolean;
   isPinned?: boolean;
   labels?: string[];
+  updatedAt?: string;
 };

@@ -7,10 +7,10 @@ export const getAllLabelsByUserId = async (
   if (!id) {
     return { success: false, message: '', labels: [] };
   }
-  console.log('[getAllLabelsByUserId]', { axiosInstance });
 
   const { data } = await axiosInstance.get(`/labels/${id}/all`);
 
+  // eslint-disable-next-line
   console.log('[getAllLabelsByUserId]', { data });
   return data;
 };

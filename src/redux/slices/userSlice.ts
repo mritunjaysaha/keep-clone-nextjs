@@ -2,6 +2,7 @@ import type { PayloadAction } from '@reduxjs/toolkit';
 import { createSlice } from '@reduxjs/toolkit';
 
 import type { Label } from '@/types/labels/Label';
+import type { Todo } from '@/types/todos/Todo';
 
 export type LabelForm = Label & { isChecked: boolean };
 
@@ -13,6 +14,8 @@ type UserStateType = {
   jwtToken: string;
   labels: { [labelId: string]: LabelForm };
   labelIds: string[];
+  todos: { [todoId: string]: Todo };
+  todoIds: string[];
 };
 
 const initialState: UserStateType = {
@@ -23,6 +26,8 @@ const initialState: UserStateType = {
   jwtToken: '',
   labels: {},
   labelIds: [],
+  todos: {},
+  todoIds: [],
 };
 
 export const userSlice = createSlice({
@@ -50,7 +55,19 @@ export const userSlice = createSlice({
         }
       }
     },
+    setTodos: (state, { payload }: PayloadAction<Todo[]>) => {
+      for (let i = 0, len = payload.length; i < len; i += 1) {
+        const data = payload[i] as Todo;
+
+        state.todos[data.todoId as string] = data;
+
+        if (!state.todoIds.includes(data.todoId as string)) {
+          state.todoIds.push(data.todoId as string);
+          console.log('[Todos]', data);
+        }
+      }
+    },
   },
 });
 
-export const { setAuth, setUserData, setLabels } = userSlice.actions;
+export const { setAuth, setUserData, setLabels, setTodos } = userSlice.actions;

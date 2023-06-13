@@ -5,7 +5,7 @@ export const getAllTodoByUserId = async (
   id: string,
   offset: number,
   limit: number,
-  sortBy: string,
+  sortBy: 'ASCENDING' | 'DESCENDING',
 ): Promise<TodoResponse> => {
   if (!id) {
     return { success: false, message: '', todos: [] };

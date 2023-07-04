@@ -1,3 +1,5 @@
+import { useCallback, useState } from 'react';
+
 import { TodoCardBody } from '@/components/Todo/components/TodoCardBody';
 import { TodoCardHeader } from '@/components/Todo/components/TodoCardHeader';
 import { TodoContext } from '@/components/Todo/TodoContext';
@@ -10,10 +12,26 @@ export const TodoCard = ({ todoId }: TodoProps) => {
 
   const currentTodo = todos[todoId];
 
+  const [isFocused, setIsFocused] = useState<boolean>(false);
+
+  const handleMouseEnter = useCallback(() => {
+    setIsFocused(true);
+  }, []);
+  const handleMouseLeave = useCallback(() => {
+    setIsFocused(false);
+  }, []);
+
   return (
-    <TodoContext.Provider value={{ ...currentTodo }}>
-      <TodoCardHeader />
-      <TodoCardBody />
+    <TodoContext.Provider value={{ ...currentTodo, isFocused }}>
+      <div
+        className='relative w-60 rounded-md border p-4 dark:border-gray-700'
+        onMouseEnter={handleMouseEnter}
+        onMouseLeave={handleMouseLeave}
+      >
+        {/* <div className='absolute -left-1 -top-1 h-5 w-5 rounded-full bg-red-700'></div> */}
+        <TodoCardHeader />
+        <TodoCardBody />
+      </div>
     </TodoContext.Provider>
   );
 };

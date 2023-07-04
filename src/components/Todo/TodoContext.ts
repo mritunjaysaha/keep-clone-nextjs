@@ -2,6 +2,8 @@ import { createContext } from 'react';
 
 import type { Todo } from '@/types/todos/Todo';
 
-const initialState = {} as Todo;
+type TodoContextType = Todo & { isFocused: boolean };
 
-export const TodoContext = createContext<Todo>(initialState);
+const initialState = {} as TodoContextType;
+
+export const TodoContext = createContext<TodoContextType>(initialState);

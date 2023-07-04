@@ -1,6 +1,7 @@
 import { useEffect } from 'react';
 import { useQuery } from 'react-query';
 
+import { TodoCard } from '@/components/Todo/TodoCard';
 import { useAppDispatch, useAppSelector } from '@/hooks/redux';
 import { LayoutPage } from '@/layouts/LayoutsPage';
 import { setTodos } from '@/redux/slices/userSlice';
@@ -10,7 +11,7 @@ import type { Todo } from '@/types/todos/Todo';
 const Home = () => {
   const dispatch = useAppDispatch();
 
-  const { email } = useAppSelector((reduxState) => reduxState.user);
+  const { email, todoIds } = useAppSelector((reduxState) => reduxState.user);
 
   const { data, isFetched } = useQuery('getAllTodos', () => {
     return getAllTodoByUserId(email, 0, 10, 'ASCENDING');
@@ -29,6 +30,9 @@ const Home = () => {
     <LayoutPage>
       <>
         <p>Home</p>
+        {todoIds.map((id) => (
+          <TodoCard key={id} todoId={id} />
+        ))}
       </>
     </LayoutPage>
   );
